@@ -12,7 +12,7 @@ public class Astra {
 
     public static void main(String[] args) {
         //initialize
-        Echo e = new Echo();
+        Todo e = new Todo();
         Scanner scanner = new Scanner(System.in);
 
         Greet();
@@ -26,7 +26,7 @@ public class Astra {
                 End();
                 break;
             }
-            e.Echoing(nextLine);
+            e.Command(nextLine);
         }
 
         scanner.close();
