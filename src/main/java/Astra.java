@@ -1,4 +1,4 @@
-public class Conner {
+public class Astra {
 
     public static void Greet(){
         System.out.println("Hello! I'm Astra ^-^");
@@ -6,7 +6,7 @@ public class Conner {
     }
 
     public static void End(){
-        System.out.println("Bye. Hope to see you again soon! :)");
+        System.out.println("Bye. Hope to see you again soon! ^v^");
     }
 
     public static void main(String[] args) {
