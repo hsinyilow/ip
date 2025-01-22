@@ -16,7 +16,7 @@ public class Todo {
         counter++;
 
         System.out.println("A new task is added:");
-        newTask.displayTask();
+        System.out.println(newTask.displayTask());
         System.out.println("You have " + counter + " tasks left! ^_^");
     }
 
