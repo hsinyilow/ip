@@ -2,10 +2,22 @@ public class Todo {
     Task[] tasks = new Task[100];
     int counter = 0;
     public void Add(String input){
-        tasks[counter] = new Task(input);
+        Task newTask = null;
+        if(input.startsWith("todo")){
+            newTask = new Task(input.substring(5));
+        } else if (input.startsWith("deadline")) {
+            String[] parseInput = input.split("/");
+            newTask = new DeadlineTask(parseInput[0], parseInput[1]);
+        } else {
+            String[] parseInput = input.split("/");
+            newTask = new EventTask(parseInput[0], parseInput[1], parseInput[2]);
+        }
+        tasks[counter] = newTask;
         counter++;
 
-        System.out.println("added: " + input);
+        System.out.println("A new task is added:");
+        newTask.displayTask();
+        System.out.println("You have " + counter + " tasks left! ^_^");
     }
 
     public void DisplayList(){

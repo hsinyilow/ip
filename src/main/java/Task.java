@@ -2,13 +2,13 @@ public class Task {
     protected String description;
     protected boolean done;
 
-    public Task(String description){
+    protected Task(String description){
         this.description = description;
         done = false;
     }
 
     public String displayTask(){
-        return "[" + (done? "X" : " ") + "] " + description;
+        return String.format("[T][%s] %s", (done? "X" : " "), description);
     }
 
     public void updateMark(boolean updateState){
