@@ -1,7 +1,9 @@
+import java.util.ArrayList;
+
 public class TodoList {
-    Task[] tasks = new Task[100];
+    ArrayList<Task> tasks = new ArrayList<>();
     int counter = 0;
-    public void Add(String input){
+    public void AddTask(String input){
         Task newTask;
         try{
             //create task
@@ -14,7 +16,7 @@ public class TodoList {
             } else{
                 throw new AstraException("Unknown command");
             }
-            tasks[counter] = newTask;
+            tasks.add(newTask);
             counter++;
 
             //feedback
@@ -27,15 +29,38 @@ public class TodoList {
 
     }
 
+    public void DeleteTask(String input){
+        try{
+            int taskIndex = CheckIntCommand(input, 6) - 1;
+            if (taskIndex >= counter  || taskIndex < 0) {
+                System.out.println("Sorry, this task don't exist :(");
+            } else {
+                String feedback = tasks.get(taskIndex).displayTask();
+                tasks.remove(taskIndex);
+                counter--;
+                System.out.println("This task has been removed:");
+                System.out.println(feedback);
+                if(counter == 0){
+                    System.out.println("All tasks have been completed! ^_^");
+                } else{
+                    System.out.println("There are " + counter + " tasks left!");
+                }
+
+            }
+        } catch (AstraException e){
+            System.out.println(e.getMessage());
+        }
+    }
+
     public void Mark(String input){
         try{
             //mark/unmark task
             boolean mark = input.startsWith("m");
             int taskIndex = CheckIntCommand(input, mark? 5: 7) - 1;
-            if (taskIndex >= counter) {
+            if (taskIndex >= counter || taskIndex < 0) {
                 System.out.println("Sorry, this task don't exist :(");
             } else {
-                tasks[taskIndex].updateMark(mark);
+                tasks.get(taskIndex).updateMark(mark);
             }
         } catch (AstraException e){
             System.out.println(e.getMessage());
@@ -47,7 +72,7 @@ public class TodoList {
     public void DisplayList(){
         System.out.println("Here are the tasks in your list:");
         for (int i = 0; i < counter; i++) {
-            System.out.println((i + 1) + "." + tasks[i].displayTask());
+            System.out.println((i + 1) + "." + tasks.get(i).displayTask());
         }
     }
 
@@ -55,11 +80,13 @@ public class TodoList {
         if(input.equals("list")) {
             //show list
             DisplayList();
+        } else if (input.startsWith("delete")) {
+            DeleteTask(input);
         } else if (input.startsWith("mark") || input.startsWith("unmark")) {
             Mark(input);
         } else {
             //add to list
-            Add(input);
+            AddTask(input);
         }
     }
 
