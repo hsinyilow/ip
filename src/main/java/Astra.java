@@ -12,7 +12,7 @@ public class Astra {
 
     public static void main(String[] args) {
         //initialize
-        Todo e = new Todo();
+        TodoList e = new TodoList();
         Scanner scanner = new Scanner(System.in);
 
         Greet();

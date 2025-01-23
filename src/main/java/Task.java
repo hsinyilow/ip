@@ -2,8 +2,7 @@ public class Task {
     protected String description;
     protected boolean done;
 
-    protected Task(String description){
-        this.description = description;
+    protected Task(){
         done = false;
     }
 
@@ -19,5 +18,11 @@ public class Task {
             System.out.println("Marking this task as not done:");
         }
         System.out.println(displayTask());;
+    }
+
+    protected String commandCheck(String command, int min){
+        if(command.length() <= min) return "";
+        command = command.substring(min);
+        return command.trim();
     }
 }
