@@ -30,4 +30,9 @@ public class EventTask extends Task{
     public String displayTask() {
         return String.format("[E][%s] %s (from: %s to: %s)", (done? "X" : " "), description, start, end);
     }
+
+    @Override
+    protected String saveString(){
+        return "D | " + done + " | " + description + " | " + start + " | " + end;
+    }
 }

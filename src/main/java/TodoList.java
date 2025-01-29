@@ -17,6 +17,7 @@ public class TodoList {
                 throw new AstraException("Unknown command");
             }
             tasks.add(newTask);
+            SaveSystem.Add(newTask.saveString());
             counter++;
 
             //feedback
@@ -65,8 +66,6 @@ public class TodoList {
         } catch (AstraException e){
             System.out.println(e.getMessage());
         }
-
-
     }
 
     public void DisplayList(){

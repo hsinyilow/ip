@@ -24,4 +24,9 @@ public class DeadlineTask extends Task{
     public String displayTask() {
         return String.format("[D][%s] %s (by: %s)", (done? "X" : " "), description, deadline);
     }
+
+    @Override
+    protected String saveString(){
+        return "D | " + done + " | " + description + " | " + deadline;
+    }
 }

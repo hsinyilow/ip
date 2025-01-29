@@ -16,6 +16,7 @@ public class Astra {
         Scanner scanner = new Scanner(System.in);
 
         Greet();
+        SaveSystem.Load();
 
         //chat loop
         while(true){

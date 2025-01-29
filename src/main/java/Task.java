@@ -25,4 +25,8 @@ public class Task {
         command = command.substring(min);
         return command.trim();
     }
+
+    protected String saveString(){
+        return done + " | " + description;
+    }
 }
