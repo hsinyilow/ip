@@ -1,10 +1,6 @@
 public class Task {
     protected String description;
-    protected boolean done;
-
-    protected Task(){
-        done = false;
-    }
+    protected boolean done = false;
 
     public String displayTask(){
         return String.format("[T][%s] %s", (done? "X" : " "), description);
@@ -24,5 +20,9 @@ public class Task {
         if(command.length() <= min) return "";
         command = command.substring(min);
         return command.trim();
+    }
+
+    protected String saveString(){
+        return done + " | " + description;
     }
 }

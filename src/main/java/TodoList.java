@@ -1,22 +1,23 @@
 import java.util.ArrayList;
 
 public class TodoList {
-    ArrayList<Task> tasks = new ArrayList<>();
-    int counter = 0;
-    public void AddTask(String input){
+    static ArrayList<Task> tasks = new ArrayList<>();
+    static int counter = 0;
+    public static void AddTask(String input){
         Task newTask;
         try{
             //create task
-            if(input.startsWith("todo")){
+            if(input.startsWith("todo") | input.startsWith("T")){
                 newTask = new TodoTask(input);
-            } else if (input.startsWith("deadline")) {
+            } else if (input.startsWith("deadline") | input.startsWith("D")) {
                 newTask = new DeadlineTask(input);
-            } else if(input.startsWith("event")) {
+            } else if(input.startsWith("event") | input.startsWith("E")) {
                 newTask = new EventTask(input);
             } else{
                 throw new AstraException("Unknown command");
             }
             tasks.add(newTask);
+            SaveSystem.Add(newTask.saveString());
             counter++;
 
             //feedback
@@ -37,6 +38,7 @@ public class TodoList {
             } else {
                 String feedback = tasks.get(taskIndex).displayTask();
                 tasks.remove(taskIndex);
+                SaveSystem.Delete(taskIndex);
                 counter--;
                 System.out.println("This task has been removed:");
                 System.out.println(feedback);
@@ -60,13 +62,14 @@ public class TodoList {
             if (taskIndex >= counter || taskIndex < 0) {
                 System.out.println("Sorry, this task don't exist :(");
             } else {
-                tasks.get(taskIndex).updateMark(mark);
+                Task currentTask = tasks.get(taskIndex);
+                currentTask.updateMark(mark);
+
+                SaveSystem.Update(taskIndex, currentTask.saveString());
             }
         } catch (AstraException e){
             System.out.println(e.getMessage());
         }
-
-
     }
 
     public void DisplayList(){

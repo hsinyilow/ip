@@ -15,8 +15,9 @@ public class Astra {
         TodoList e = new TodoList();
         Scanner scanner = new Scanner(System.in);
 
-        Greet();
 
+        SaveSystem.Load();
+        Greet();
         //chat loop
         while(true){
             String nextLine = scanner.nextLine();
