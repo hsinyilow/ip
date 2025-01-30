@@ -13,6 +13,8 @@ public class EventTask extends Task{
             this.done = parseInput[1].equals("true");
             timings[0]= LocalDateTime.parse(parseInput[3]);
             timings[1] = LocalDateTime.parse(parseInput[4]);
+            keepTime[0] = parseInput[5].equals("true");
+            keepTime[1] = parseInput[6].equals("true");
         } else {
             String[] parseInput = input.split("/");
             if(parseInput.length != 3 ||
@@ -62,6 +64,7 @@ public class EventTask extends Task{
 
     @Override
     protected String saveString(){
-        return "E | " + done + " | " + description + " | " + timings[0] + " | " + timings[1];
+        return "E | " + done + " | " + description + " | " + timings[0] + " | " + timings[1]
+                + " | " + keepTime[0] + " | " + keepTime[1];
     }
 }

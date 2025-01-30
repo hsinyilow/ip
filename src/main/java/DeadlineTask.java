@@ -14,14 +14,15 @@ public class DeadlineTask extends Task{
             this.description = parseInput[2];
             this.done = parseInput[1].equals("true");
             this.deadline = LocalDateTime.parse(parseInput[3]);
+            this.keepTime = parseInput[4].equals("true");
         } else {
-            String[] parseInput = input.split("/");
+            String[] parseInput = input.split("/by");
             if(parseInput.length != 2){
                 throw new AstraException("Invalid Deadline Task command");
             }
 
             String descriptionResult = commandCheck(parseInput[0], 9);
-            String deadlineResult = commandCheck(parseInput[1], 3);
+            String deadlineResult = commandCheck(parseInput[1], 0);
 
             if(descriptionResult.isEmpty()){
                 throw new AstraException("Invalid Task description");
@@ -59,6 +60,6 @@ public class DeadlineTask extends Task{
 
     @Override
     protected String saveString(){
-        return "D | " + done + " | " + description + " | " + deadline;
+        return "D | " + done + " | " + description + " | " + deadline + " | " + keepTime;
     }
 }

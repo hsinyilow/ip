@@ -1,14 +1,2 @@
-D | false | return book | 2019-12-02T00:00
-D | false | return book | 2019-12-02T18:00
-D | false | a | 2019-11-05T00:00
-D | false | return book | 2019-10-15T18:00
-D | false | return book | 2019-10-15T18:00
-D | false | return book | 2019-10-15T18:00
-D | false | return book | 2019-10-15T18:00
-D | false | return book | 2019-10-15T18:00
-D | false | return book | 2019-10-15T18:00
-D | false | return book | 2019-10-15T18:00
-D | false | return book | 2019-01-25T18:00
-E | false | test | 2019-10-15T00:00 | 2019-10-15T19:00
-E | false | a | 2019-10-15T00:00 | 2019-10-15T14:00
-E | false | a | 2019-10-15T00:00 | 2019-10-15T14:00
+E | false | a | 2019-10-15T00:00 | 2019-10-15T14:00 | false | true
+D | false | b | 2019-10-15T11:00 | true
