@@ -1,10 +1,6 @@
-public class Task {
-    protected String description;
+public abstract class Task {
+    protected String description = "";
     protected boolean done = false;
-
-    public String displayTask(){
-        return String.format("[T][%s] %s", (done? "X" : " "), description);
-    }
 
     public void updateMark(boolean updateState){
         done = updateState;
@@ -16,13 +12,6 @@ public class Task {
         System.out.println(displayTask());;
     }
 
-    protected String commandCheck(String command, int min){
-        if(command.length() <= min) return "";
-        command = command.substring(min);
-        return command.trim();
-    }
-
-    protected String saveString(){
-        return done + " | " + description;
-    }
+    abstract String displayTask();
+    abstract String saveString();
 }

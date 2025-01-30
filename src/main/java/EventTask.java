@@ -1,20 +1,14 @@
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-
 public class EventTask extends Task{
-    protected LocalDateTime[] timings = new LocalDateTime[2];
-    protected boolean[] keepTime = {false, false};
+    protected TimeData[] timings = new TimeData[2];
+
     public EventTask(String input) throws AstraException{
         if(input.startsWith("E ")) {
-            String[] parseInput = input.split(" \\Q|\\E ");
-            this.description = parseInput[2];
+            String[] parseInput = Parser.ParseSaveFile(input);
             this.done = parseInput[1].equals("true");
-            timings[0]= LocalDateTime.parse(parseInput[3]);
-            timings[1] = LocalDateTime.parse(parseInput[4]);
-            keepTime[0] = parseInput[5].equals("true");
-            keepTime[1] = parseInput[6].equals("true");
+            this.description = parseInput[2];
+
+            timings[0]= new TimeData(parseInput[3]);
+            timings[1] = new TimeData(parseInput[4]);
         } else {
             String[] parseInput = input.split("/");
             if(parseInput.length != 3 ||
@@ -22,8 +16,9 @@ public class EventTask extends Task{
                 throw new AstraException("Invalid Event Task command");
             }
 
-            String descriptionResult = commandCheck(parseInput[0], 5);
-            String[] timingResult = {commandCheck(parseInput[1], 4), commandCheck(parseInput[2], 2)};
+            String descriptionResult = Parser.ParseCommand(parseInput[0], 5, false);
+            String[] timingResult = {Parser.ParseCommand(parseInput[1], 4, false),
+                                    Parser.ParseCommand(parseInput[2], 2, false)};
 
             if(descriptionResult.isEmpty()){
                 throw new AstraException("Invalid task description");
@@ -36,35 +31,21 @@ public class EventTask extends Task{
             this.description = descriptionResult;
 
             for (int i = 0; i < 2; i++) {
-                parseInput = timingResult[i].split(" ");
-                LocalDate date = LocalDate.parse(parseInput[0]);
-                LocalTime time = LocalTime.MIN;
-                if (parseInput.length != 1){
-                    time = LocalTime.of(Integer.parseInt(parseInput[1].substring(0,2)),
-                            Integer.parseInt(parseInput[1].substring(2)));
-                    keepTime[i] = true;
-                }
-                timings[i] = LocalDateTime.of(date, time);
+                timings[i] = Parser.ParseTime(timingResult[i]);
             }
         }
 
     }
 
-    public String getDeadline(LocalDateTime input, boolean withTime){
-        String time = input.toLocalTime().format(DateTimeFormatter.ofPattern("hh:mm a"));
-        String date = input.toLocalDate().format(DateTimeFormatter.ofPattern("dd MMMM yyyy"));
-        return withTime? String.format("%s %s", date, time) : String.format("%s", date);
-    }
 
     @Override
     public String displayTask() {
         return String.format("[E][%s] %s (from: %s to: %s)", (done? "X" : " "), description,
-                getDeadline(timings[0], keepTime[0]), getDeadline(timings[1], keepTime[1]));
+                timings[0].displayTimeData(), timings[1].displayTimeData());
     }
 
     @Override
     protected String saveString(){
-        return "E | " + done + " | " + description + " | " + timings[0] + " | " + timings[1]
-                + " | " + keepTime[0] + " | " + keepTime[1];
+        return String.format("E | %b | %s | %s | %s", done, description, timings[0].saveData(), timings[1].saveData());
     }
 }

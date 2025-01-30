@@ -1,9 +1,9 @@
 import java.util.ArrayList;
 
-public class TodoList {
-    static ArrayList<Task> tasks = new ArrayList<>();
-    static int counter = 0;
-    public static void AddTask(String input){
+public class TaskList {
+   ArrayList<Task> tasks = new ArrayList<>();
+   int counter = 0;
+   public void AddTask(String input){
         Task newTask;
         try{
             //create task
@@ -32,7 +32,7 @@ public class TodoList {
 
     public void DeleteTask(String input){
         try{
-            int taskIndex = CheckIntCommand(input, 6) - 1;
+            int taskIndex = Parser.ParseIntCommand(input, 6) - 1;
             if (taskIndex >= counter  || taskIndex < 0) {
                 System.out.println("Sorry, this task don't exist :(");
             } else {
@@ -58,7 +58,7 @@ public class TodoList {
         try{
             //mark/unmark task
             boolean mark = input.startsWith("m");
-            int taskIndex = CheckIntCommand(input, mark? 5: 7) - 1;
+            int taskIndex = Parser.ParseIntCommand(input, mark? 5: 7) - 1;
             if (taskIndex >= counter || taskIndex < 0) {
                 System.out.println("Sorry, this task don't exist :(");
             } else {
@@ -93,24 +93,4 @@ public class TodoList {
         }
     }
 
-    protected String commandCheck(String command, int min){
-        if(command.length() <= min) return "";
-        command = command.substring(min);
-        command = command.replace(" ", "");
-        return command;
-    }
-
-    protected int CheckIntCommand(String command, int min) throws AstraException{
-        command = commandCheck(command, min);
-        if (command.isEmpty()) {
-            throw new AstraException("This is an invalid command");
-        }
-
-        try{
-            return Integer.parseInt(command);
-
-        } catch (NumberFormatException e){
-            throw new AstraException("This command requires a number");
-        }
-    }
 }
