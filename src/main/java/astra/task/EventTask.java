@@ -1,7 +1,13 @@
+package astra.task;
+
+import astra.system.AstraException;
+import astra.system.Parser;
+import astra.system.TimeData;
+
 public class EventTask extends Task{
     protected TimeData[] timings = new TimeData[2];
 
-    public EventTask(String input) throws AstraException{
+    public EventTask(String input) throws AstraException {
         if(input.startsWith("E ")) {
             String[] parseInput = Parser.ParseSaveFile(input);
             this.done = parseInput[1].equals("true");
@@ -13,7 +19,7 @@ public class EventTask extends Task{
             String[] parseInput = input.split("/");
             if(parseInput.length != 3 ||
                     !parseInput[1].startsWith("from") || !parseInput[2].startsWith("to")){
-                throw new AstraException("Invalid Event Task command");
+                throw new AstraException("Invalid Event astra.task.Task command");
             }
 
             String descriptionResult = Parser.ParseCommand(parseInput[0], 5, false);
