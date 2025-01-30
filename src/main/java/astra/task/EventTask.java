@@ -10,6 +10,7 @@ public class EventTask extends Task{
     public EventTask(String input) throws AstraException {
         if(input.startsWith("E ")) {
             String[] parseInput = Parser.ParseSaveFile(input);
+            if (parseInput.length == 1) throw new AstraException("Invalid command");
             this.done = parseInput[1].equals("true");
             this.description = parseInput[2];
 

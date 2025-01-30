@@ -9,6 +9,7 @@ public class TodoTask extends Task {
         if (input.startsWith("T ")) {
             //load save
             String[] parseInput = Parser.ParseSaveFile(input);
+            if (parseInput.length == 1) throw new AstraException("Invalid command");
             this.description = parseInput[2];
             this.done = parseInput[1].equals("true");
 
