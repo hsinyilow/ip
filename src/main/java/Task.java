@@ -1,10 +1,6 @@
 public class Task {
     protected String description;
-    protected boolean done;
-
-    protected Task(){
-        done = false;
-    }
+    protected boolean done = false;
 
     public String displayTask(){
         return String.format("[T][%s] %s", (done? "X" : " "), description);
