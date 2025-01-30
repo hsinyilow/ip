@@ -4,6 +4,10 @@ public abstract class Task {
     protected String description = "";
     protected boolean done = false;
 
+    public boolean checkDescription (String fragment) {
+        return description.contains(fragment);
+    }
+
     public void updateMark(boolean updateState){
         done = updateState;
         if (done) {

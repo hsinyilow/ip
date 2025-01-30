@@ -85,6 +85,18 @@ public class TaskList {
         }
     }
 
+    public void Find(String input) {
+        String parsed = Parser.ParseCommand(input, 4, false);
+
+        System.out.println("Here are the matching tasks in your list:");
+
+        for (int i = 0; i < tasks.size(); i++) {
+            if (tasks.get(i).checkDescription(parsed)) {
+                System.out.println(tasks.get(i).displayTask());
+            }
+        }
+    }
+
     public void Command(String input){
         if(input.equals("list")) {
             //show list
@@ -93,6 +105,8 @@ public class TaskList {
             DeleteTask(input);
         } else if (input.startsWith("mark") || input.startsWith("unmark")) {
             Mark(input);
+        } else if (input.startsWith("find") ) {
+            Find(input);
         } else {
             //add to list
             AddTask(input);
