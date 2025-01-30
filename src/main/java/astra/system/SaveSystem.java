@@ -43,8 +43,10 @@ public class SaveSystem {
     }
 
     //append new items
-    public static void Add(String data){
-        if (!write) return;
+    public static void Add(String data) {
+        if (!write) {
+            return;
+        }
 
         try (FileWriter fileWriter = new FileWriter(filePath.toString(), true)) {
             fileWriter.append(data);
@@ -57,7 +59,9 @@ public class SaveSystem {
 
     //update changes
     public static void Update(int index, String data){
-        if (!write) return;
+        if (!write) {
+            return;
+        }
         allLines.set(index, data);
         try {
             Files.write(filePath, allLines);
@@ -69,7 +73,9 @@ public class SaveSystem {
 
     //delete task from save file
     public static void Delete(int index) {
-        if (!write) return;
+        if (!write) {
+            return;
+        }
         allLines.remove(index);
         try {
             Files.write(filePath, allLines);

@@ -4,27 +4,29 @@ import astra.system.AstraException;
 import astra.system.Parser;
 import astra.system.TimeData;
 
-public class DeadlineTask extends Task{
+public class DeadlineTask extends Task {
     private TimeData deadline;
 
     public DeadlineTask(String input) throws AstraException {
 
         if(input.startsWith("D ")) {
             String[] parseInput = Parser.ParseSaveFile(input);
-            if (parseInput.length == 1) throw new AstraException("Invalid command");
+            if (parseInput.length == 1) {
+                throw new AstraException("Invalid command");
+            }
             this.description = parseInput[2];
             this.done = parseInput[1].equals("true");
             this.deadline = new TimeData(parseInput[3]);
         } else {
             String[] parseInput = input.split("/by");
-            if(parseInput.length != 2){
+            if(parseInput.length != 2) {
                 throw new AstraException("Invalid Deadline astra.task.Task command");
             }
 
             String descriptionResult = Parser.ParseCommand(parseInput[0], 9, false);
             String deadlineResult = Parser.ParseCommand(parseInput[1], 0, false);
 
-            if(descriptionResult.isEmpty()){
+            if(descriptionResult.isEmpty()) {
                 throw new AstraException("Invalid astra.task.Task description");
             } else if (deadlineResult.isEmpty()) {
                 throw new AstraException("Invalid astra.task.Task deadline");
@@ -42,7 +44,7 @@ public class DeadlineTask extends Task{
     }
 
     @Override
-    protected String saveString(){
+    protected String saveString() {
         return String.format("D | %b | %s | %s", done, description, deadline.saveData());
     }
 }
