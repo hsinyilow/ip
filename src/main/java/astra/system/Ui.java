@@ -1,7 +1,9 @@
+package astra.system;
+
 public class Ui {
 
     public static void Greet(){
-        System.out.println("Hello! I'm Astra ^-^");
+        System.out.println("Hello! I'm astra.Astra ^-^");
         System.out.println("What can I do for you?");
     }
 
