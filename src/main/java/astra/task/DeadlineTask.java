@@ -11,6 +11,7 @@ public class DeadlineTask extends Task{
 
         if(input.startsWith("D ")) {
             String[] parseInput = Parser.ParseSaveFile(input);
+            if (parseInput.length == 1) throw new AstraException("Invalid command");
             this.description = parseInput[2];
             this.done = parseInput[1].equals("true");
             this.deadline = new TimeData(parseInput[3]);
