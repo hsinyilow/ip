@@ -7,6 +7,12 @@ import astra.system.TimeData;
 public class DeadlineTask extends Task{
     private TimeData deadline;
 
+    /**
+     * Constructor for Deadline Task.
+     *
+     * @param input command and information of the task.
+     * @throws AstraException If information or command is invalid.
+     */
     public DeadlineTask(String input) throws AstraException {
 
         if(input.startsWith("D ")) {
@@ -36,11 +42,22 @@ public class DeadlineTask extends Task{
 
     }
 
+    /**
+     * Display data.
+     *
+     * @return String of information for Ui.
+     */
     @Override
     public String displayTask() {
         return String.format("[D][%s] %s (by: %s)", (done? "X" : " "), description, deadline.displayTimeData());
     }
 
+    /**
+     * Save format of Deadline Task.
+     * This string is saved locally in a txt file.
+     *
+     * @return String of data that is being saved.
+     */
     @Override
     protected String saveString(){
         return String.format("D | %b | %s | %s", done, description, deadline.saveData());

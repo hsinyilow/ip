@@ -9,6 +9,12 @@ import java.util.ArrayList;
 public class TaskList {
    ArrayList<Task> tasks = new ArrayList<>();
    int counter = 0;
+    /**
+     * Add task to task list.
+     * Creates and add the appropriate type of task to the list.
+     *
+     * @param input command to be run with information of the task.
+     */
    public void AddTask(String input){
         Task newTask;
         try{
@@ -36,6 +42,12 @@ public class TaskList {
 
     }
 
+    /**
+     * Delete task from task list.
+     * Delete the specific task from existing list.
+     *
+     * @param input delete command with the task number.
+     */
     public void DeleteTask(String input){
         try{
             int taskIndex = Parser.ParseIntCommand(input, 6) - 1;
@@ -60,6 +72,12 @@ public class TaskList {
         }
     }
 
+    /**
+     * Mark task in task list.
+     * Mark the specified task as done or not done.
+     *
+     * @param input mark command with the task number.
+     */
     public void Mark(String input){
         try{
             //mark/unmark task
@@ -78,6 +96,11 @@ public class TaskList {
         }
     }
 
+    /**
+     * Display data.
+     *
+     * @return String of information for Ui.
+     */
     public void DisplayList(){
         System.out.println("Here are the tasks in your list:");
         for (int i = 0; i < counter; i++) {
@@ -85,6 +108,12 @@ public class TaskList {
         }
     }
 
+    /**
+     * Run commands.
+     * Checks the string for the command and runs the appropriate function.
+     *
+     * @param input command to be run.
+     */
     public void Command(String input){
         if(input.equals("list")) {
             //show list

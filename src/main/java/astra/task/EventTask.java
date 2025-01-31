@@ -7,6 +7,12 @@ import astra.system.TimeData;
 public class EventTask extends Task{
     protected TimeData[] timings = new TimeData[2];
 
+    /**
+     * Constructor for Event Task.
+     *
+     * @param input command and information of the task.
+     * @throws AstraException If information or command is invalid.
+     */
     public EventTask(String input) throws AstraException {
         if(input.startsWith("E ")) {
             String[] parseInput = Parser.ParseSaveFile(input);
@@ -44,13 +50,23 @@ public class EventTask extends Task{
 
     }
 
-
+    /**
+     * Display data.
+     *
+     * @return String of information for Ui.
+     */
     @Override
     public String displayTask() {
         return String.format("[E][%s] %s (from: %s to: %s)", (done? "X" : " "), description,
                 timings[0].displayTimeData(), timings[1].displayTimeData());
     }
 
+    /**
+     * Save format of Event Task.
+     * This string is saved locally in a txt file.
+     *
+     * @return String of data that is being saved.
+     */
     @Override
     protected String saveString(){
         return String.format("E | %b | %s | %s | %s", done, description, timings[0].saveData(), timings[1].saveData());
