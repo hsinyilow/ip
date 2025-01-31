@@ -4,13 +4,15 @@ import astra.system.AstraException;
 import astra.system.Parser;
 import astra.system.TimeData;
 
-public class EventTask extends Task{
+public class EventTask extends Task {
     protected TimeData[] timings = new TimeData[2];
 
     public EventTask(String input) throws AstraException {
         if(input.startsWith("E ")) {
             String[] parseInput = Parser.ParseSaveFile(input);
-            if (parseInput.length == 1) throw new AstraException("Invalid command");
+            if (parseInput.length == 1) {
+                throw new AstraException("Invalid command");
+            }
             this.done = parseInput[1].equals("true");
             this.description = parseInput[2];
 
@@ -19,19 +21,19 @@ public class EventTask extends Task{
         } else {
             String[] parseInput = input.split("/");
             if(parseInput.length != 3 ||
-                    !parseInput[1].startsWith("from") || !parseInput[2].startsWith("to")){
+                    !parseInput[1].startsWith("from") || !parseInput[2].startsWith("to")) {
                 throw new AstraException("Invalid Event astra.task.Task command");
             }
 
             String descriptionResult = Parser.ParseCommand(parseInput[0], 5, false);
             String[] timingResult = {Parser.ParseCommand(parseInput[1], 4, false),
-                                    Parser.ParseCommand(parseInput[2], 2, false)};
+                    Parser.ParseCommand(parseInput[2], 2, false)};
 
-            if(descriptionResult.isEmpty()){
+            if (descriptionResult.isEmpty()) {
                 throw new AstraException("Invalid task description");
             } else if (timingResult[0].isEmpty()) {
                 throw new AstraException("Invalid event start");
-            } else if (timingResult[1].isEmpty()){
+            } else if (timingResult[1].isEmpty()) {
                 throw new AstraException("Invalid event end");
             }
 
@@ -52,7 +54,7 @@ public class EventTask extends Task{
     }
 
     @Override
-    protected String saveString(){
+    protected String saveString() {
         return String.format("E | %b | %s | %s | %s", done, description, timings[0].saveData(), timings[1].saveData());
     }
 }

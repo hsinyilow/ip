@@ -5,35 +5,38 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 public class Parser {
-    public static String ParseCommand(String command, int min, boolean removeSpace){
+    public static String ParseCommand(String command, int min, boolean removeSpace) {
         //command = command sent
         //min: min substring to cut
-        if (command.length() <= min) return "";
+        if (command.length() <= min) {
+            return "";
+        }
         command = command.substring(min);
-        if (removeSpace) command = command.replace(" ", "");
+        if (removeSpace) {
+            command = command.replace(" ", "");
+        }
         return command.trim();
     }
 
-    public static int ParseIntCommand(String command, int min) throws AstraException{
+    public static int ParseIntCommand(String command, int min) throws AstraException {
         command = Parser.ParseCommand(command, min, true);
         if (command.isEmpty()) {
             throw new AstraException("This is an invalid command");
         }
 
-        try{
+        try {
             return Integer.parseInt(command);
 
-        } catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
             throw new AstraException("This command requires a number");
         }
     }
 
-    public static String[] ParseSaveFile(String input){
-
+    public static String[] ParseSaveFile(String input) {
         return input.split(" \\Q|\\E ");
     }
 
-    public static TimeData ParseTime(String input) throws AstraException{
+    public static TimeData ParseTime(String input) throws AstraException {
         String[] parseInput = input.split(" ");
 
         try {

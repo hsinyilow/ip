@@ -9,11 +9,11 @@ import java.util.ArrayList;
 public class TaskList {
    ArrayList<Task> tasks = new ArrayList<>();
    int counter = 0;
-   public void AddTask(String input){
+   public void AddTask(String input) {
         Task newTask;
         try{
             //create task
-            if(input.startsWith("todo") | input.startsWith("T")){
+            if(input.startsWith("todo") | input.startsWith("T")) {
                 newTask = new TodoTask(input);
             } else if (input.startsWith("deadline") | input.startsWith("D")) {
                 newTask = new DeadlineTask(input);
@@ -30,7 +30,7 @@ public class TaskList {
             System.out.println("A new task is added:");
             System.out.println(newTask.displayTask());
             System.out.println("You have " + counter + " tasks left! ^_^");
-        } catch (AstraException ae){
+        } catch (AstraException ae) {
             System.out.println(ae.getMessage());
         }
 
@@ -60,8 +60,8 @@ public class TaskList {
         }
     }
 
-    public void Mark(String input){
-        try{
+    public void Mark(String input) {
+        try {
             //mark/unmark task
             boolean mark = input.startsWith("m");
             int taskIndex = Parser.ParseIntCommand(input, mark? 5: 7) - 1;
@@ -70,22 +70,21 @@ public class TaskList {
             } else {
                 Task currentTask = tasks.get(taskIndex);
                 currentTask.updateMark(mark);
-
                 SaveSystem.Update(taskIndex, currentTask.saveString());
             }
-        } catch (AstraException e){
+        } catch (AstraException e) {
             System.out.println(e.getMessage());
         }
     }
 
-    public void DisplayList(){
+    public void DisplayList() {
         System.out.println("Here are the tasks in your list:");
         for (int i = 0; i < counter; i++) {
             System.out.println((i + 1) + "." + tasks.get(i).displayTask());
         }
     }
 
-    public void Command(String input){
+    public void Command(String input) {
         if(input.equals("list")) {
             //show list
             DisplayList();

@@ -4,7 +4,7 @@ public abstract class Task {
     protected String description = "";
     protected boolean done = false;
 
-    public void updateMark(boolean updateState){
+    public void updateMark(boolean updateState) {
         done = updateState;
         if (done) {
             System.out.println("Marking this task as done:");

@@ -21,11 +21,11 @@ public class Astra {
         Scanner scanner = new Scanner(System.in);
 
         //chat loop
-        while(true){
+        while (true) {
             String nextLine = scanner.nextLine();
 
             //end
-            if(nextLine.equals("bye")){
+            if (nextLine.equals("bye")) {
                 break;
             }
             taskList.Command(nextLine);
