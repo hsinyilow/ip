@@ -4,7 +4,15 @@ public abstract class Task {
     protected String description = "";
     protected boolean done = false;
 
+<<<<<<< HEAD
     public void updateMark(boolean updateState) {
+=======
+    public boolean checkDescription (String fragment) {
+        return description.contains(fragment);
+    }
+
+    public void updateMark(boolean updateState){
+>>>>>>> branch-Level-9
         done = updateState;
         if (done) {
             System.out.println("Marking this task as done:");
