@@ -15,14 +15,6 @@ public class SaveSystem {
     private static boolean write = false;
     private static List<String> allLines = new ArrayList<>();
 
-    /**
-     * Load the save data.
-     * Load in save data if file is found.
-     * Create new save data if file is not found.
-     *
-     * @param path file path
-     * @param taskList task list to load the data into
-     */
     public static void Load(String path, TaskList taskList) {
         filePath = Paths.get(path);
 
@@ -50,11 +42,6 @@ public class SaveSystem {
         write = true;
     }
 
-    /**
-     * Add to save data.
-     *
-     * @param data new data to add to save file.
-     */
     //append new items
     public static void Add(String data){
         if (!write) return;
@@ -68,12 +55,6 @@ public class SaveSystem {
         }
     }
 
-    /**
-     * Update save data.
-     *
-     * @param index index of line to change in save file.
-     * @param data new data to change in save file.
-     */
     //update changes
     public static void Update(int index, String data){
         if (!write) return;
@@ -86,11 +67,7 @@ public class SaveSystem {
 
     }
 
-    /**
-     * Delete specific save data.
-     *
-     * @param index index of line to delete in save file.
-     */
+    //delete task from save file
     public static void Delete(int index) {
         if (!write) return;
         allLines.remove(index);

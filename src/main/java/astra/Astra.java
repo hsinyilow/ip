@@ -1,6 +1,5 @@
 package astra;
 
-import astra.system.AstraException;
 import astra.system.SaveSystem;
 import astra.system.Ui;
 import astra.task.TaskList;
@@ -12,22 +11,12 @@ public class Astra {
     private TaskList taskList = new TaskList();
 
 
-    /**
-     * Constructor for Astra.
-     *
-     * @param filePath file path of save file.
-     */
     public Astra(String filePath) {
         //initialize
         SaveSystem.Load(filePath, taskList);
         Ui.Greet();
     }
 
-    /**
-     * Chatbot running loop.
-     * Wait for user input and run the command.
-     * Exits running loop when Bye command is called.
-     */
     public void Run() {
         Scanner scanner = new Scanner(System.in);
 
