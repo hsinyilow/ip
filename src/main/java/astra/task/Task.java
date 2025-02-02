@@ -4,22 +4,20 @@ public abstract class Task {
     protected String description = "";
     protected boolean done = false;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-    public void updateMark(boolean updateState) {
-=======
+    /**
+     * Checks the description of this task.
+     * @param fragment The string that the description needs to match.
+     * @return Whether it matches or not.
+     */
     public boolean checkDescription (String fragment) {
         return description.contains(fragment);
     }
 
-=======
     /**
      * Updates the completion status of a task.
      * @param updateState The new completion state of the task.
      */
->>>>>>> branch-A-JavaDocNew
     public void updateMark(boolean updateState){
->>>>>>> branch-Level-9
         done = updateState;
         if (done) {
             System.out.println("Marking this task as done:");

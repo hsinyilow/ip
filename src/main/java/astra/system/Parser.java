@@ -5,13 +5,6 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 public class Parser {
-    public static String ParseCommand(String command, int min, boolean removeSpace) {
-        //command = command sent
-        //min: min substring to cut
-        if (command.length() <= min) {
-            return "";
-        }
-    }
     /**
      * Parses from full command to command data.
      * @param command The command to be parsed.
@@ -28,7 +21,6 @@ public class Parser {
         return command.trim();
     }
 
-    public static int ParseIntCommand(String command, int min) throws AstraException {
     /**
      * Parses commands that has integer data.
      * @param command The command to be parsed.
@@ -49,13 +41,6 @@ public class Parser {
             throw new AstraException("This command requires a number");
         }
     }
-
-
-    public static String[] ParseSaveFile(String input) {
-        return input.split(" \\Q|\\E ");
-    }
-
-    public static TimeData ParseTime(String input) throws AstraException {
 
     /**
      * Parses save file data.

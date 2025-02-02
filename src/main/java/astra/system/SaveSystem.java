@@ -51,20 +51,12 @@ public class SaveSystem {
         write = true;
     }
 
-<<<<<<< HEAD
-    //append new items
-    public static void Add(String data) {
-        if (!write) {
-            return;
-        }
-=======
     /**
      * Adds new task data to the save file.
      * @param data The data that is being saved.
      */
     public static void Add(String data){
         if (!write) return;
->>>>>>> branch-A-JavaDocNew
 
         try (FileWriter fileWriter = new FileWriter(filePath.toString(), true)) {
             fileWriter.append(data);

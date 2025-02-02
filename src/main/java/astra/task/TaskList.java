@@ -9,16 +9,12 @@ import java.util.ArrayList;
 public class TaskList {
    ArrayList<Task> tasks = new ArrayList<>();
    int counter = 0;
-<<<<<<< HEAD
-   public void AddTask(String input) {
-=======
 
     /**
      * Adds a new task the task list.
      * @param input The add task command or remaining commands.
      */
    public void AddTask(String input){
->>>>>>> branch-A-JavaDocNew
         Task newTask;
         try{
             //create task
@@ -73,17 +69,12 @@ public class TaskList {
         }
     }
 
-<<<<<<< HEAD
-    public void Mark(String input) {
-        try {
-=======
     /**
      * Marks a class as incomplete or complete.
      * @param input The mark command.
      */
     public void Mark(String input){
         try{
->>>>>>> branch-A-JavaDocNew
             //mark/unmark task
             boolean mark = input.startsWith("m");
             int taskIndex = Parser.ParseIntCommand(input, mark? 5: 7) - 1;
@@ -99,24 +90,20 @@ public class TaskList {
         }
     }
 
-<<<<<<< HEAD
-    public void DisplayList() {
-=======
     /**
      * Displays all the tasks in the task list.
      */
     public void DisplayList(){
->>>>>>> branch-A-JavaDocNew
         System.out.println("Here are the tasks in your list:");
         for (int i = 0; i < counter; i++) {
             System.out.println((i + 1) + "." + tasks.get(i).displayTask());
         }
     }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-    public void Command(String input) {
-=======
+    /**
+     * Find all tasks that matches the input.
+     * @param input The matching task description.
+     */
     public void Find(String input) {
         String parsed = Parser.ParseCommand(input, 4, false);
 
@@ -129,14 +116,12 @@ public class TaskList {
         }
     }
 
-=======
+
     /**
      * Checks and calls the function associated with the given command.
      * @param input The command to be called.
      */
->>>>>>> branch-A-JavaDocNew
     public void Command(String input){
->>>>>>> branch-Level-9
         if(input.equals("list")) {
             //show list
             DisplayList();
