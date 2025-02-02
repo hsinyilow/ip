@@ -5,6 +5,11 @@ import astra.system.Parser;
 
 public class TodoTask extends Task {
 
+    /**
+     * Initializes a todo task object.
+     * @param input the command with task data.
+     * @throws AstraException If any of the task data is invalid or if the command is invalid.
+     */
     public TodoTask(String input) throws AstraException {
         if (input.startsWith("T ")) {
             //load save
@@ -23,11 +28,19 @@ public class TodoTask extends Task {
         }
     }
 
+    /**
+     * Formats the data in save format.
+     * @return Formatted data string.
+     */
     @Override
     protected String saveString(){
         return String.format("T | %b | %s", done, description);
     }
 
+    /**
+     * Formats the data in display format.
+     * @return Formatted data string.
+     */
     @Override
     public String displayTask(){
         return String.format("[T][%s] %s", (done? "X" : " "), description);

@@ -2,12 +2,15 @@ package astra.system;
 
 import astra.task.TaskList;
 
-import java.io.*;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+
+import static java.nio.file.Files.readAllLines;
 
 public class SaveSystem {
     private static Path filePath;
@@ -15,13 +18,19 @@ public class SaveSystem {
     private static boolean write = false;
     private static List<String> allLines = new ArrayList<>();
 
+    /**
+     * Loads all the data from the save file.
+     * Data is loaded into the specified task list..
+     * @param path File path of the save file.
+     * @param taskList The task list that the data is going to be saved.
+     */
     public static void Load(String path, TaskList taskList) {
         filePath = Paths.get(path);
 
         if (Files.exists(filePath)) {
             //load save file
             try {
-                allLines = Files.readAllLines(filePath);
+                allLines = readAllLines(filePath);
 
                 for (int i = 0; i < allLines.size(); i++) {
                     taskList.AddTask(allLines.get(i));
@@ -42,7 +51,10 @@ public class SaveSystem {
         write = true;
     }
 
-    //append new items
+    /**
+     * Adds new task data to the save file.
+     * @param data The data that is being saved.
+     */
     public static void Add(String data){
         if (!write) return;
 
@@ -55,7 +67,11 @@ public class SaveSystem {
         }
     }
 
-    //update changes
+    /**
+     * Updates the specified task data in the save file.
+     * @param index The index of the task.
+     * @param data The new data that is being saved.
+     */
     public static void Update(int index, String data){
         if (!write) return;
         allLines.set(index, data);
@@ -67,7 +83,10 @@ public class SaveSystem {
 
     }
 
-    //delete task from save file
+    /**
+     * Deletes the specified task data from the save file.
+     * @param index The index of the task.
+     */
     public static void Delete(int index) {
         if (!write) return;
         allLines.remove(index);
