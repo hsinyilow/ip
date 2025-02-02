@@ -13,8 +13,8 @@ public class EventTask extends Task {
      * @throws AstraException If any of the task data is invalid or if the command is invalid.
      */
     public EventTask(String input) throws AstraException {
-        if(input.startsWith("E ")) {
-            String[] parseInput = Parser.ParseSaveFile(input);
+        if (input.startsWith("E ")) {
+            String[] parseInput = Parser.parseSaveFile(input);
             if (parseInput.length == 1) {
                 throw new AstraException("Invalid command");
             }
@@ -25,14 +25,14 @@ public class EventTask extends Task {
             timings[1] = new TimeData(parseInput[4]);
         } else {
             String[] parseInput = input.split("/");
-            if(parseInput.length != 3 ||
+            if (parseInput.length != 3 ||
                     !parseInput[1].startsWith("from") || !parseInput[2].startsWith("to")) {
                 throw new AstraException("Invalid Event astra.task.Task command");
             }
 
-            String descriptionResult = Parser.ParseCommand(parseInput[0], 5, false);
-            String[] timingResult = {Parser.ParseCommand(parseInput[1], 4, false),
-                    Parser.ParseCommand(parseInput[2], 2, false)};
+            String descriptionResult = Parser.parseCommand(parseInput[0], 5, false);
+            String[] timingResult = {Parser.parseCommand(parseInput[1], 4, false),
+                    Parser.parseCommand(parseInput[2], 2, false)};
 
             if (descriptionResult.isEmpty()) {
                 throw new AstraException("Invalid task description");
@@ -45,7 +45,7 @@ public class EventTask extends Task {
             this.description = descriptionResult;
 
             for (int i = 0; i < 2; i++) {
-                timings[i] = Parser.ParseTime(timingResult[i]);
+                timings[i] = Parser.parseTime(timingResult[i]);
             }
         }
 

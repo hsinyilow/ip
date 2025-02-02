@@ -14,7 +14,6 @@ import static java.nio.file.Files.readAllLines;
 
 public class SaveSystem {
     private static Path filePath;
-
     private static boolean write = false;
     private static List<String> allLines = new ArrayList<>();
 
@@ -24,7 +23,7 @@ public class SaveSystem {
      * @param path File path of the save file.
      * @param taskList The task list that the data is going to be saved.
      */
-    public static void Load(String path, TaskList taskList) {
+    public static void loadSaveFile(String path, TaskList taskList) {
         filePath = Paths.get(path);
 
         if (Files.exists(filePath)) {
@@ -33,10 +32,10 @@ public class SaveSystem {
                 allLines = readAllLines(filePath);
 
                 for (int i = 0; i < allLines.size(); i++) {
-                    taskList.AddTask(allLines.get(i));
+                    taskList.addTask(allLines.get(i));
                 }
             } catch (IOException e) {
-                Ui.FeedbackError("Error in loading a save file.");
+                Ui.feedbackError("Error in loading a save file.");
             }
 
         } else {
@@ -44,7 +43,7 @@ public class SaveSystem {
             try {
                 Files.createFile(filePath);
             } catch (IOException e) {
-                Ui.FeedbackError("Error in creating a save file.");
+                Ui.feedbackError("Error in creating a save file.");
             }
         }
 
@@ -55,15 +54,17 @@ public class SaveSystem {
      * Adds new task data to the save file.
      * @param data The data that is being saved.
      */
-    public static void Add(String data){
-        if (!write) return;
+    public static void add(String data) {
+        if (!write) {
+            return;
+        }
 
         try (FileWriter fileWriter = new FileWriter(filePath.toString(), true)) {
             fileWriter.append(data);
             fileWriter.append(System.lineSeparator());
             allLines.add(data);
         } catch (IOException e) {
-            Ui.FeedbackError("Error in saving a task.");
+            Ui.feedbackError("Error in saving a task.");
         }
     }
 
@@ -72,7 +73,7 @@ public class SaveSystem {
      * @param index The index of the task.
      * @param data The new data that is being saved.
      */
-    public static void Update(int index, String data){
+    public static void update(int index, String data) {
         if (!write) {
             return;
         }
@@ -80,7 +81,7 @@ public class SaveSystem {
         try {
             Files.write(filePath, allLines);
         } catch (IOException e) {
-            Ui.FeedbackError("Error in saving the changes.");
+            Ui.feedbackError("Error in saving the changes.");
         }
 
     }
@@ -89,7 +90,7 @@ public class SaveSystem {
      * Deletes the specified task data from the save file.
      * @param index The index of the task.
      */
-    public static void Delete(int index) {
+    public static void delete(int index) {
         if (!write) {
             return;
         }
@@ -97,7 +98,7 @@ public class SaveSystem {
         try {
             Files.write(filePath, allLines);
         } catch (IOException e) {
-            Ui.FeedbackError("Error in saving the changes.");
+            Ui.feedbackError("Error in saving the changes.");
         }
     }
 }

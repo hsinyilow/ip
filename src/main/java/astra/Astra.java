@@ -15,14 +15,14 @@ public class Astra {
      * @param filePath file path of save file.
      */
     public Astra(String filePath) {
-        SaveSystem.Load(filePath, taskList);
-        Ui.Greet();
+        SaveSystem.loadSaveFile(filePath, taskList);
+        Ui.greet();
     }
 
     /**
      * Command and result loop
      */
-    public void Run() {
+    public void runAstra() {
         Scanner scanner = new Scanner(System.in);
 
         //chat loop
@@ -33,15 +33,15 @@ public class Astra {
             if (nextLine.equals("bye")) {
                 break;
             }
-            taskList.Command(nextLine);
+            taskList.command(nextLine);
         }
 
         //close chat
         scanner.close();
-        Ui.End();
+        Ui.end();
     }
 
     public static void main(String[] args) {
-        new Astra("data/astraData.txt").Run();
+        new Astra("data/astraData.txt").runAstra();
     }
 }

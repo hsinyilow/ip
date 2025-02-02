@@ -13,7 +13,7 @@ public class TodoTask extends Task {
     public TodoTask(String input) throws AstraException {
         if (input.startsWith("T ")) {
             //load save
-            String[] parseInput = Parser.ParseSaveFile(input);
+            String[] parseInput = Parser.parseSaveFile(input);
             if (parseInput.length == 1) {
                 throw new AstraException("Invalid command");
             }
@@ -22,7 +22,7 @@ public class TodoTask extends Task {
 
         } else {
             //add task
-            String result = Parser.ParseCommand(input, 4, false);
+            String result = Parser.parseCommand(input, 4, false);
             if (result.isEmpty()) {
                 throw new AstraException("Invalid task description");
             }
