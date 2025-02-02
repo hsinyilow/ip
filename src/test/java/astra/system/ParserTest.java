@@ -1,21 +1,25 @@
 package astra.system;
+
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
+
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
 public class ParserTest {
 
     @Test
-    public void testCommand1(){
+    public void testCommand1() {
         assertEquals("aee", Parser.parseCommand("       a     e     e   ", 2, true));
     }
 
     @Test
-    public void testCommand2(){
+    public void testCommand2() {
         assertEquals("a  3   1", Parser.parseCommand("a  3   1", 0, false));
     }
 
     @Test
-    public void testTime3(){
+    public void testTime3() {
         try {
             Parser.parseTime("a  3   1");
         } catch (Exception e) {
@@ -24,9 +28,9 @@ public class ParserTest {
     }
 
     @Test
-    public void timeTest1(){
+    public void timeTest1() {
         try {
-            assertEquals("01 December 1925" ,Parser.parseTime("1925-12-01").displayTimeData());
+            assertEquals("01 December 1925" , Parser.parseTime("1925-12-01").displayTimeData());
 
         } catch (Exception e) {
             fail();
@@ -35,7 +39,7 @@ public class ParserTest {
 
     //unaccepted format
     @Test
-    public void timeTest2(){
+    public void timeTest2() {
         try {
             Parser.parseTime("11-01-1025").displayTimeData();
 

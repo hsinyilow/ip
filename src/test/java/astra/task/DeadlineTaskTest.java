@@ -1,23 +1,26 @@
 package astra.task;
-import astra.system.AstraException;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
+
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import astra.system.AstraException;
 
 public class DeadlineTaskTest {
 
     @Test
-    public void parseTest1(){
+    public void parseTest1() {
         try {
             Task t1 = new DeadlineTask("deadline items and things /by 2019-05-01");
             assertEquals("[D][ ] items and things (by: 01 May 2019)", t1.displayTask());
         } catch (AstraException ignored) {
-
+            System.out.println(ignored.getMessage());
         }
     }
 
     @Test
-    public void test2(){
+    public void test2() {
         try {
             Task t1 = new DeadlineTask("deadline /by 1134 /by 1441");
             fail();
@@ -28,7 +31,7 @@ public class DeadlineTaskTest {
     }
 
     @Test
-    public void test3(){
+    public void test3() {
         try {
             Task t1 = new DeadlineTask("deadline /by 1134");
             fail();

@@ -1,5 +1,8 @@
 package astra.task;
 
+/**
+ * Is inherited by all tasks.
+ */
 public abstract class Task {
     protected String description = "";
     protected boolean done = false;
@@ -9,7 +12,7 @@ public abstract class Task {
      * @param fragment The string that the description needs to match.
      * @return Whether it matches or not.
      */
-    public boolean checkDescription (String fragment) {
+    public boolean checkDescription(String fragment) {
         return description.contains(fragment);
     }
 
@@ -17,7 +20,7 @@ public abstract class Task {
      * Updates the completion status of a task.
      * @param updateState The new completion state of the task.
      */
-    public void updateMark(boolean updateState){
+    public void updateMark(boolean updateState) {
         done = updateState;
         if (done) {
             System.out.println("Marking this task as done:");

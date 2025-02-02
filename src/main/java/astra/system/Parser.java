@@ -4,6 +4,9 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
+/**
+ * Handles parsing most commands.
+ */
 public class Parser {
     /**
      * Parses from full command to command data.
@@ -66,7 +69,7 @@ public class Parser {
             LocalDate date = LocalDate.parse(parseInput[0]);
             LocalTime time = LocalTime.MIN;
             if (parseInput.length != 1) {
-                time = LocalTime.of(Integer.parseInt(parseInput[1].substring(0,2)),
+                time = LocalTime.of(Integer.parseInt(parseInput[1].substring(0, 2)),
                         Integer.parseInt(parseInput[1].substring(2)));
 
                 return new TimeData(LocalDateTime.of(date, time), true);

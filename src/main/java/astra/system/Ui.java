@@ -1,5 +1,8 @@
 package astra.system;
 
+/**
+ * Handles all the Ui for the chatbot.
+ */
 public class Ui {
 
     /**

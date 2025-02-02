@@ -3,11 +3,14 @@ package astra.system;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * Handles all the time data for the chatbot currently.
+ */
 public class TimeData {
 
-    LocalDateTime dateTime;
+    private LocalDateTime dateTime;
 
-    boolean keepTime;
+    private boolean keepTime;
 
     /**
      * Initializes the TimeData object from the save file.
@@ -36,7 +39,7 @@ public class TimeData {
     public String displayTimeData() {
         String time = dateTime.toLocalTime().format(DateTimeFormatter.ofPattern("hh:mm a"));
         String date = dateTime.toLocalDate().format(DateTimeFormatter.ofPattern("dd MMMM yyyy"));
-        return keepTime? String.format("%s %s", date, time) : String.format("%s", date);
+        return keepTime ? String.format("%s %s", date, time) : String.format("%s", date);
     }
 
     /**
