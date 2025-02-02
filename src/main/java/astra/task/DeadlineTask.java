@@ -4,6 +4,9 @@ import astra.system.AstraException;
 import astra.system.Parser;
 import astra.system.TimeData;
 
+/**
+ * Is a deadline task.
+ */
 public class DeadlineTask extends Task {
     private TimeData deadline;
 
@@ -49,7 +52,7 @@ public class DeadlineTask extends Task {
      */
     @Override
     public String displayTask() {
-        return String.format("[D][%s] %s (by: %s)", (done? "X" : " "), description, deadline.displayTimeData());
+        return String.format("[D][%s] %s (by: %s)", (done ? "X" : " "), description, deadline.displayTimeData());
     }
 
     /**

@@ -4,6 +4,9 @@ import astra.system.AstraException;
 import astra.system.Parser;
 import astra.system.TimeData;
 
+/**
+ * Is an event task.
+ */
 public class EventTask extends Task {
     protected TimeData[] timings = new TimeData[2];
 
@@ -21,12 +24,12 @@ public class EventTask extends Task {
             this.done = parseInput[1].equals("true");
             this.description = parseInput[2];
 
-            timings[0]= new TimeData(parseInput[3]);
+            timings[0] = new TimeData(parseInput[3]);
             timings[1] = new TimeData(parseInput[4]);
         } else {
             String[] parseInput = input.split("/");
-            if (parseInput.length != 3 ||
-                    !parseInput[1].startsWith("from") || !parseInput[2].startsWith("to")) {
+            if (parseInput.length != 3
+                    || !parseInput[1].startsWith("from") || !parseInput[2].startsWith("to")) {
                 throw new AstraException("Invalid Event astra.task.Task command");
             }
 
@@ -57,7 +60,7 @@ public class EventTask extends Task {
      */
     @Override
     public String displayTask() {
-        return String.format("[E][%s] %s (from: %s to: %s)", (done? "X" : " "), description,
+        return String.format("[E][%s] %s (from: %s to: %s)", (done ? "X" : " "), description,
                 timings[0].displayTimeData(), timings[1].displayTimeData());
     }
 

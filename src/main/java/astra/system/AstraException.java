@@ -1,5 +1,8 @@
 package astra.system;
 
+/**
+ * Handles chatbot specific errors.
+ */
 public class AstraException extends Exception {
     /**
      * Returns chatbot specific error.

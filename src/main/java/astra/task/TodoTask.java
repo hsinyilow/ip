@@ -3,6 +3,9 @@ package astra.task;
 import astra.system.AstraException;
 import astra.system.Parser;
 
+/**
+ * Is a todo task.
+ */
 public class TodoTask extends Task {
 
     /**
@@ -45,6 +48,6 @@ public class TodoTask extends Task {
      */
     @Override
     public String displayTask() {
-        return String.format("[T][%s] %s", (done? "X" : " "), description);
+        return String.format("[T][%s] %s", (done ? "X" : " "), description);
     }
 }

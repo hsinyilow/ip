@@ -1,11 +1,16 @@
 package astra;
 
+import java.util.Scanner;
+
 import astra.system.SaveSystem;
 import astra.system.Ui;
 import astra.task.TaskList;
 
-import java.util.Scanner;
 
+
+/**
+ * Is the chatbot
+ */
 public class Astra {
 
     private TaskList taskList = new TaskList();

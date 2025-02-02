@@ -1,6 +1,6 @@
 package astra.system;
 
-import astra.task.TaskList;
+import static java.nio.file.Files.readAllLines;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -10,8 +10,12 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-import static java.nio.file.Files.readAllLines;
+import astra.task.TaskList;
 
+
+/**
+ * Handles saving of local data.
+ */
 public class SaveSystem {
     private static Path filePath;
     private static boolean write = false;
@@ -19,7 +23,7 @@ public class SaveSystem {
 
     /**
      * Loads all the data from the save file.
-     * Data is loaded into the specified task list..
+     * Data is loaded into the specified task list.
      * @param path File path of the save file.
      * @param taskList The task list that the data is going to be saved.
      */

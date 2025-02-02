@@ -1,28 +1,32 @@
 package astra.task;
 
+import java.util.ArrayList;
+
 import astra.system.AstraException;
 import astra.system.Parser;
 import astra.system.SaveSystem;
 
-import java.util.ArrayList;
 
+/**
+ * Is a task list.
+ */
 public class TaskList {
-   ArrayList<Task> tasks = new ArrayList<>();
-   int counter = 0;
+    private ArrayList<Task> tasks = new ArrayList<>();
+    private int counter = 0;
 
     /**
      * Adds a new task the task list.
      * @param input The add task command or remaining commands.
      */
-   public void addTask(String input) {
+    public void addTask(String input) {
         Task newTask;
-        try{
+        try {
             //create task
             if (input.startsWith("todo") | input.startsWith("T")) {
                 newTask = new TodoTask(input);
             } else if (input.startsWith("deadline") | input.startsWith("D")) {
                 newTask = new DeadlineTask(input);
-            } else if(input.startsWith("event") | input.startsWith("E")) {
+            } else if (input.startsWith("event") | input.startsWith("E")) {
                 newTask = new EventTask(input);
             } else {
                 throw new AstraException("Unknown command");
@@ -48,7 +52,7 @@ public class TaskList {
     public void deleteTask(String input) {
         try {
             int taskIndex = Parser.parseIntCommand(input, 6) - 1;
-            if (taskIndex >= counter  || taskIndex < 0) {
+            if (taskIndex >= counter || taskIndex < 0) {
                 System.out.println("Sorry, this task don't exist :(");
             } else {
                 String feedback = tasks.get(taskIndex).displayTask();
@@ -77,7 +81,7 @@ public class TaskList {
         try {
             //mark/unmark task
             boolean mark = input.startsWith("m");
-            int taskIndex = Parser.parseIntCommand(input, mark? 5: 7) - 1;
+            int taskIndex = Parser.parseIntCommand(input, mark ? 5 : 7) - 1;
             if (taskIndex >= counter || taskIndex < 0) {
                 System.out.println("Sorry, this task don't exist :(");
             } else {
@@ -122,14 +126,14 @@ public class TaskList {
      * @param input The command to be called.
      */
     public void command(String input) {
-        if(input.equals("list")) {
+        if (input.equals("list")) {
             //show list
             displayTaskList();
         } else if (input.startsWith("delete")) {
             deleteTask(input);
         } else if (input.startsWith("mark") || input.startsWith("unmark")) {
             markTask(input);
-        } else if (input.startsWith("find") ) {
+        } else if (input.startsWith("find")) {
             findTask(input);
         } else {
             //add to list
