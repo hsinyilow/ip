@@ -1,0 +1,22 @@
+diff a/src/main/java/astra/Astra.java b/src/main/java/astra/Astra.java	(rejected hunks)
+@@ -10,13 +10,18 @@
+ 
+     private TaskList taskList = new TaskList();
+ 
+-
++    /**
++     * Initializes the chatbot.
++     * @param filePath file path of save file.
++     */
+     public Astra(String filePath) {
+-        //initialize
+         SaveSystem.Load(filePath, taskList);
+         Ui.Greet();
+     }
+ 
++    /**
++     * Command and result loop
++     */
+     public void Run() {
+         Scanner scanner = new Scanner(System.in);
+ 

@@ -10,13 +10,18 @@ public class Astra {
 
     private TaskList taskList = new TaskList();
 
-
+    /**
+     * Initializes the chatbot.
+     * @param filePath file path of save file.
+     */
     public Astra(String filePath) {
-        //initialize
         SaveSystem.Load(filePath, taskList);
         Ui.Greet();
     }
 
+    /**
+     * Command and result loop
+     */
     public void Run() {
         Scanner scanner = new Scanner(System.in);
 

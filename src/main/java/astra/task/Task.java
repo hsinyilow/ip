@@ -5,12 +5,19 @@ public abstract class Task {
     protected boolean done = false;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     public void updateMark(boolean updateState) {
 =======
     public boolean checkDescription (String fragment) {
         return description.contains(fragment);
     }
 
+=======
+    /**
+     * Updates the completion status of a task.
+     * @param updateState The new completion state of the task.
+     */
+>>>>>>> branch-A-JavaDocNew
     public void updateMark(boolean updateState){
 >>>>>>> branch-Level-9
         done = updateState;
@@ -22,6 +29,15 @@ public abstract class Task {
         System.out.println(displayTask());;
     }
 
+    /**
+     * Formats the data in display format.
+     * @return Formatted data string.
+     */
     abstract String displayTask();
+
+    /**
+     * Formats the data in save format.
+     * @return Formatted data string.
+     */
     abstract String saveString();
 }
