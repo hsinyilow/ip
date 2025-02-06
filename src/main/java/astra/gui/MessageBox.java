@@ -1,7 +1,6 @@
 package astra.gui;
 
 import java.io.IOException;
-import java.util.Collections;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -14,7 +13,10 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 
-public class MessageBox extends HBox{
+/**
+ * Displays the message.
+ */
+public class MessageBox extends HBox {
     private Image userImage = new Image(this.getClass().getResourceAsStream("/images/user_icon.png"));
     private Image astraImage = new Image(this.getClass().getResourceAsStream("/images/astra_icon.png"));
     @FXML
@@ -22,6 +24,11 @@ public class MessageBox extends HBox{
     @FXML
     private ImageView displayPicture;
 
+    /**
+     * Initializes the message box.
+     * @param text the message to display.
+     * @param image feedback who sent the message.
+     */
     private MessageBox(String text, int image) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(MainWindow.class.getResource("/view/MessageBox.fxml"));

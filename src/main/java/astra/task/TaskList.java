@@ -2,14 +2,11 @@ package astra.task;
 
 import java.util.ArrayList;
 
-import astra.gui.GuiMain;
 import astra.gui.MainWindow;
-import astra.gui.MessageBox;
 import astra.system.AstraException;
 import astra.system.Parser;
 import astra.system.SaveSystem;
 import astra.system.Ui;
-import com.sun.tools.javac.Main;
 
 
 /**
@@ -45,9 +42,9 @@ public class TaskList {
             System.out.println(newTask.displayTask());
             System.out.println("You have " + counter + " tasks left! ^_^");
 
-            MainWindow.messageList.add("A new task is added:");
-            MainWindow.messageList.add(newTask.displayTask());
-            MainWindow.messageList.add("You have " + counter + " tasks left! ^_^");
+            MainWindow.addMessage("A new task is added:",
+                    newTask.displayTask(), "You have " + counter + " tasks left! ^_^");
+
         } catch (AstraException e) {
             Ui.feedbackError(e.getMessage());
         }
@@ -63,7 +60,7 @@ public class TaskList {
             int taskIndex = Parser.parseIntCommand(input, 6) - 1;
             if (taskIndex >= counter || taskIndex < 0) {
                 System.out.println("Sorry, this task don't exist :(");
-                MainWindow.messageList.add("Sorry, this task don't exist :(");
+                MainWindow.addMessage("Sorry, this task don't exist :(");
             } else {
                 String feedback = tasks.get(taskIndex).displayTask();
                 tasks.remove(taskIndex);
@@ -71,14 +68,13 @@ public class TaskList {
                 counter--;
                 System.out.println("This task has been removed:");
                 System.out.println(feedback);
-                MainWindow.messageList.add("This task has been removed:");
-                MainWindow.messageList.add(feedback);
+                MainWindow.addMessage("This task has been removed:", feedback);
                 if (counter == 0) {
                     System.out.println("All tasks have been completed! ^_^");
-                    MainWindow.messageList.add("All tasks have been completed! ^_^");
+                    MainWindow.addMessage("All tasks have been completed! ^_^");
                 } else {
                     System.out.println("There are " + counter + " tasks left!");
-                    MainWindow.messageList.add("There are " + counter + " tasks left!");
+                    MainWindow.addMessage("There are " + counter + " tasks left!");
                 }
 
             }
@@ -99,7 +95,7 @@ public class TaskList {
             int taskIndex = Parser.parseIntCommand(input, mark ? 5 : 7) - 1;
             if (taskIndex >= counter || taskIndex < 0) {
                 System.out.println("Sorry, this task don't exist :(");
-                MainWindow.messageList.add("Sorry, this task don't exist :(");
+                MainWindow.addMessage("Sorry, this task don't exist :(");
             } else {
                 Task currentTask = tasks.get(taskIndex);
                 currentTask.updateMark(mark);
@@ -116,10 +112,12 @@ public class TaskList {
      */
     public void displayTaskList() {
         System.out.println("Here are the tasks in your list:");
-        MainWindow.messageList.add("Here are the tasks in your list:");
+        MainWindow.addMessage("Here are the tasks in your list:");
+
         for (int i = 0; i < counter; i++) {
             System.out.println((i + 1) + "." + tasks.get(i).displayTask());
-            MainWindow.messageList.add((i + 1) + "." + tasks.get(i).displayTask());
+            MainWindow.addMessage((i + 1) + "." + tasks.get(i).displayTask());
+
         }
     }
 
@@ -135,7 +133,7 @@ public class TaskList {
         for (int i = 0; i < tasks.size(); i++) {
             if (tasks.get(i).checkDescription(parsed)) {
                 System.out.println(tasks.get(i).displayTask());
-                MainWindow.messageList.add(tasks.get(i).displayTask());
+                MainWindow.addMessage(tasks.get(i).displayTask());
             }
         }
     }

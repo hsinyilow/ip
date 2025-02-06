@@ -1,7 +1,5 @@
 package astra.system;
 
-import astra.gui.MainWindow;
-
 /**
  * Handles chatbot specific errors.
  */
