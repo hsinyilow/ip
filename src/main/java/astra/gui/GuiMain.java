@@ -1,5 +1,8 @@
 package astra.gui;
 
+import astra.system.SaveSystem;
+import astra.system.Ui;
+import astra.task.TaskList;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -9,11 +12,18 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Button;
-import javafx.scene.layout.Region;
+import java.io.IOException;
+import java.util.ArrayList;
+
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 
 
 public class GuiMain extends Application{
-
+    private TaskList taskList = new TaskList();
     private ScrollPane scrollPane;
     private VBox dialogContainer;
     private TextField userInput;
@@ -21,59 +31,39 @@ public class GuiMain extends Application{
 
     private Scene scene;
 
-    private Image userImage = new Image(this.getClass().getResourceAsStream("/images/user_icon.png"));
-
-    private Image astraImage = new Image(this.getClass().getResourceAsStream("/images/astra_icon.png"));
+    public static ArrayList<MessageBox> messageList = new ArrayList<>();
+    //private Responder responder = new Responder();
     @Override
     public void start(Stage stage){
-        scrollPane = new ScrollPane();
-        dialogContainer = new VBox();
-        scrollPane.setContent(dialogContainer);
-
-        userInput = new TextField();
-        sendButton = new Button("Send");
-
-        MessageBox messageBox = new MessageBox("Hello!", userImage);
-        dialogContainer.getChildren().addAll(messageBox);
-
-
-        AnchorPane mainLayout = new AnchorPane();
-        mainLayout.getChildren().addAll(scrollPane, userInput, sendButton);
-
-
-        stage.setTitle("Astra");
-        stage.setResizable(false);
-        stage.setMinHeight(600.0);
-        stage.setMinWidth(400.0);
-
-        mainLayout.setPrefSize(400.0, 600.0);
-
-        scrollPane.setPrefSize(385, 535);
-        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
-
-        scrollPane.setVvalue(1.0);
-        scrollPane.setFitToWidth(true);
-
-        dialogContainer.setPrefHeight(Region.USE_COMPUTED_SIZE);
-
-        userInput.setPrefWidth(325.0);
-
-        sendButton.setPrefWidth(55.0);
-
-        AnchorPane.setTopAnchor(scrollPane, 1.0);
-
-        AnchorPane.setBottomAnchor(sendButton, 1.0);
-        AnchorPane.setRightAnchor(sendButton, 1.0);
-
-        AnchorPane.setLeftAnchor(userInput , 1.0);
-        AnchorPane.setBottomAnchor(userInput, 1.0);
-
-        scene = new Scene(mainLayout);
-
-        stage.setScene(scene);
-        stage.show();
+//        SaveSystem.loadSaveFile("data/astraData.txt", taskList);
+//        MainWindow.messageList.clear();
+//        Ui.greet();
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(GuiMain.class.getResource("/view/MainWindow.fxml"));
+            AnchorPane ap = fxmlLoader.load();
+            Scene scene = new Scene(ap);
+            stage.setScene(scene);
+            //fxmlLoader.<MainWindow>getController().setResponder(responder);  // inject the Duke instance
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
+
+//    private void handleUserInput() {
+//        String userText = userInput.getText();
+//        taskList.command(userText);
+//        dialogContainer.getChildren().addAll(
+//                MessageBox.getUserDialog(userText)
+//        );
+//        for (int i = 0; i < messageList.size(); i++) {
+//            dialogContainer.getChildren().add(messageList.get(i));
+//        }
+//
+//
+//        userInput.clear();
+//    }
+
 
 
 }

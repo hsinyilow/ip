@@ -1,5 +1,7 @@
 package astra.task;
 
+import astra.gui.MainWindow;
+
 /**
  * Is inherited by all tasks.
  */
@@ -24,10 +26,13 @@ public abstract class Task {
         done = updateState;
         if (done) {
             System.out.println("Marking this task as done:");
+            MainWindow.messageList.add("Marking this task as done:");
         } else {
             System.out.println("Marking this task as not done:");
+            MainWindow.messageList.add("Marking this task as not done:");
         }
         System.out.println(displayTask());;
+        MainWindow.messageList.add(displayTask());
     }
 
     /**
