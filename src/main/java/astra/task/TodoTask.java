@@ -14,6 +14,8 @@ public class TodoTask extends Task {
      * @throws AstraException If any of the task data is invalid or if the command is invalid.
      */
     public TodoTask(String input) throws AstraException {
+        assert  input.startsWith("T") || input.startsWith("todo")
+                : "The todo task object constructor should not have been called";
         if (input.startsWith("T ")) {
             //load save
             String[] parseInput = Parser.parseSaveFile(input);

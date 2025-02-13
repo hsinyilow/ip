@@ -16,7 +16,8 @@ public class DeadlineTask extends Task {
      * @throws AstraException If any of the task data is invalid or if the command is invalid.
      */
     public DeadlineTask(String input) throws AstraException {
-
+        assert  input.startsWith("D") || input.startsWith("deadline")
+                : "The deadline task object constructor should not have been called";
         if (input.startsWith("D ")) {
             String[] parseInput = Parser.parseSaveFile(input);
             if (parseInput.length == 1) {
