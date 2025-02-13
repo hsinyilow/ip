@@ -10,26 +10,34 @@ public class TodoTask extends Task {
 
     /**
      * Initializes a todo task object.
-     * @param input the command with task data.
-     * @throws AstraException If any of the task data is invalid or if the command is invalid.
+     * @param description description of the todo task.
+     * @param isDone completion status of the todo task.
      */
-    public TodoTask(String input) throws AstraException {
+    private TodoTask(String description, boolean isDone){
+        this.description = description;
+        this.isDone = isDone;
+    }
+
+
+    public static TodoTask createNewTask(String input) throws AstraException {
         if (input.startsWith("T ")) {
-            //load save
+            /* handle input from save file*/
             String[] parseInput = Parser.parseSaveFile(input);
-            if (parseInput.length == 1) {
-                throw new AstraException("Invalid command");
+
+            if (parseInput.length != 3) {
+                throw new AstraException("Save file is corrupted");
             }
-            this.description = parseInput[2];
-            this.done = parseInput[1].equals("true");
+
+            return new TodoTask(parseInput[2], parseInput[1].equals("true"));
 
         } else {
-            //add task
-            String result = Parser.parseCommand(input, 4, false);
-            if (result.isEmpty()) {
+            /* handle input from user */
+            String description = Parser.parseCommand(input, 4, false);
+
+            if (description.isEmpty()) {
                 throw new AstraException("Invalid task description");
             }
-            this.description = result;
+            return new TodoTask(description, false);
         }
     }
 
@@ -39,7 +47,7 @@ public class TodoTask extends Task {
      */
     @Override
     protected String saveString() {
-        return String.format("T | %b | %s", done, description);
+        return String.format("T | %b | %s", isDone, description);
     }
 
     /**
@@ -48,6 +56,6 @@ public class TodoTask extends Task {
      */
     @Override
     public String displayTask() {
-        return String.format("[T][%s] %s", (done ? "X" : " "), description);
+        return String.format("[T][%s] %s", (isDone ? "X" : " "), description);
     }
 }

@@ -1,13 +1,15 @@
 package astra.task;
 
 import astra.gui.MainWindow;
+import astra.system.AstraException;
+import astra.system.Ui;
 
 /**
  * Is inherited by all tasks.
  */
 public abstract class Task {
     protected String description = "";
-    protected boolean done = false;
+    protected boolean isDone = false;
 
     /**
      * Checks the description of this task.
@@ -20,20 +22,18 @@ public abstract class Task {
 
     /**
      * Updates the completion status of a task.
-     * @param updateState The new completion state of the task.
+     * @param isDone The new completion state of the task.
      */
-    public void updateMark(boolean updateState) {
-        done = updateState;
-        if (done) {
-            System.out.println("Marking this task as done:");
-            MainWindow.addMessage("Marking this task as done:");
+    public void updateMark(boolean isDone) {
+        this.isDone = isDone;
+        if (isDone) {
+            Ui.feedbackMessage("Marking this task as done:", displayTask());
+            MainWindow.addMessage("Marking this task as done:", displayTask());
 
         } else {
-            System.out.println("Marking this task as not done:");
-            MainWindow.addMessage("Marking this task as not done:");
+            Ui.feedbackMessage("Marking this task as not done:", displayTask());
+            MainWindow.addMessage("Marking this task as not done:", displayTask());
         }
-        System.out.println(displayTask());;
-        MainWindow.addMessage(displayTask());
     }
 
     /**

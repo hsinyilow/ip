@@ -33,4 +33,10 @@ public class Ui {
         System.out.println(error);
         MainWindow.addMessage("An error has been encountered:", error);
     }
+
+    public static void feedbackMessage(String... messages) {
+        for (int i = 0; i < messages.length; i++) {
+            System.out.println(messages[i]);
+        }
+    }
 }

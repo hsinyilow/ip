@@ -8,50 +8,56 @@ import astra.system.TimeData;
  * Is an event task.
  */
 public class EventTask extends Task {
-    protected TimeData[] timings = new TimeData[2];
+    protected TimeData[] timings;
 
     /**
      * Initializes an event task object.
-     * @param input the command with task data.
-     * @throws AstraException If any of the task data is invalid or if the command is invalid.
+     * @param description description of event task.
+     * @param isDone completion state of event class.
+     * @param timings start and end time of event task.
      */
-    public EventTask(String input) throws AstraException {
-        if (input.startsWith("E ")) {
-            String[] parseInput = Parser.parseSaveFile(input);
-            if (parseInput.length == 1) {
-                throw new AstraException("Invalid command");
-            }
-            this.done = parseInput[1].equals("true");
-            this.description = parseInput[2];
+    private EventTask(String description, boolean isDone, TimeData[] timings) {
+        this.description = description;
+        this.isDone = isDone;
+        this.timings = timings;
+    }
 
-            timings[0] = new TimeData(parseInput[3]);
-            timings[1] = new TimeData(parseInput[4]);
+    public static EventTask createNewTask(String input) throws AstraException {
+        if (input.startsWith("E ")) {
+            /* handle input from save file*/
+            String[] parseInput = Parser.parseSaveFile(input);
+
+            if (parseInput.length != 5) {
+                throw new AstraException("Corrupted save file");
+            }
+
+            TimeData[] timings = {new TimeData(parseInput[3]), new TimeData(parseInput[4])};
+            return new EventTask(parseInput[2], parseInput[1].equals("true"), timings);
+
         } else {
+            /* handle input from user */
             String[] parseInput = input.split("/");
-            if (parseInput.length != 3
-                    || !parseInput[1].startsWith("from") || !parseInput[2].startsWith("to")) {
+            boolean isInvalidCommand = !parseInput[1].startsWith("from") || !parseInput[2].startsWith("to");
+
+            if (parseInput.length != 3 || isInvalidCommand) {
                 throw new AstraException("Invalid Event astra.task.Task command");
             }
 
-            String descriptionResult = Parser.parseCommand(parseInput[0], 5, false);
-            String[] timingResult = {Parser.parseCommand(parseInput[1], 4, false),
-                    Parser.parseCommand(parseInput[2], 2, false)};
+            String description = Parser.parseCommand(parseInput[0], 5, false);
+            String timeFrom = Parser.parseCommand(parseInput[1], 4, false);
+            String timeTo = Parser.parseCommand(parseInput[2], 2, false);
 
-            if (descriptionResult.isEmpty()) {
+            if (description.isEmpty()) {
                 throw new AstraException("Invalid task description");
-            } else if (timingResult[0].isEmpty()) {
+            } else if (timeFrom.isEmpty()) {
                 throw new AstraException("Invalid event start");
-            } else if (timingResult[1].isEmpty()) {
+            } else if (timeTo.isEmpty()) {
                 throw new AstraException("Invalid event end");
             }
 
-            this.description = descriptionResult;
-
-            for (int i = 0; i < 2; i++) {
-                timings[i] = Parser.parseTime(timingResult[i]);
-            }
+            TimeData[] timings = {Parser.parseTime(timeFrom), Parser.parseTime(timeTo)};
+            return new EventTask(description, false, timings);
         }
-
     }
 
     /**
@@ -60,7 +66,7 @@ public class EventTask extends Task {
      */
     @Override
     public String displayTask() {
-        return String.format("[E][%s] %s (from: %s to: %s)", (done ? "X" : " "), description,
+        return String.format("[E][%s] %s (from: %s to: %s)", (isDone ? "X" : " "), description,
                 timings[0].displayTimeData(), timings[1].displayTimeData());
     }
 
@@ -70,6 +76,7 @@ public class EventTask extends Task {
      */
     @Override
     protected String saveString() {
-        return String.format("E | %b | %s | %s | %s", done, description, timings[0].saveData(), timings[1].saveData());
+        return String.format("E | %b | %s | %s | %s",
+                isDone, description, timings[0].saveData(), timings[1].saveData());
     }
 }

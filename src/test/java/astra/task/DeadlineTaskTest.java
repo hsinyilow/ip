@@ -12,7 +12,7 @@ public class DeadlineTaskTest {
     @Test
     public void parseTest1() {
         try {
-            Task t1 = new DeadlineTask("deadline items and things /by 2019-05-01");
+            Task t1 = DeadlineTask.createNewTask("deadline items and things /by 2019-05-01");
             assertEquals("[D][ ] items and things (by: 01 May 2019)", t1.displayTask());
         } catch (AstraException ignored) {
             System.out.println(ignored.getMessage());
@@ -22,7 +22,7 @@ public class DeadlineTaskTest {
     @Test
     public void test2() {
         try {
-            Task t1 = new DeadlineTask("deadline /by 1134 /by 1441");
+            Task t1 = DeadlineTask.createNewTask("deadline /by 1134 /by 1441");
             fail();
         } catch (AstraException ae) {
             //parsing error
@@ -33,7 +33,7 @@ public class DeadlineTaskTest {
     @Test
     public void test3() {
         try {
-            Task t1 = new DeadlineTask("deadline /by 1134");
+            Task t1 = DeadlineTask.createNewTask("deadline /by 1134");
             fail();
         } catch (AstraException ae) {
             //has different ways to trigger error
