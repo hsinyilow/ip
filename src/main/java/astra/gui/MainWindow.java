@@ -80,6 +80,5 @@ public class MainWindow extends AnchorPane {
         for (int i = 0; i < messages.length; i++) {
             messageList.add(messages[i]);
         }
-
     }
 }

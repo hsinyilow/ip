@@ -30,18 +30,17 @@ public class Astra {
     public void runAstra() {
         Scanner scanner = new Scanner(System.in);
 
-        //chat loop
+        /* execute all command user gives */
         while (true) {
             String nextLine = scanner.nextLine();
 
-            //end
             if (nextLine.equals("bye")) {
                 break;
             }
             taskList.command(nextLine);
         }
 
-        //close chat
+        /*End the conversation */
         scanner.close();
         Ui.end();
     }

@@ -18,7 +18,7 @@ import astra.task.TaskList;
  */
 public class SaveSystem {
     private static Path filePath;
-    private static boolean write = false;
+    private static boolean shouldWrite = false;
     private static List<String> allLines = new ArrayList<>();
 
     /**
@@ -36,7 +36,7 @@ public class SaveSystem {
                 allLines = readAllLines(filePath);
 
                 for (int i = 0; i < allLines.size(); i++) {
-                    taskList.addTask(allLines.get(i));
+                    taskList.command(allLines.get(i));
                 }
             } catch (IOException e) {
                 Ui.feedbackError("Error in loading a save file.");
@@ -51,7 +51,7 @@ public class SaveSystem {
             }
         }
 
-        write = true;
+        shouldWrite = true;
     }
 
     /**
@@ -59,7 +59,7 @@ public class SaveSystem {
      * @param data The data that is being saved.
      */
     public static void add(String data) {
-        if (!write) {
+        if (!shouldWrite) {
             return;
         }
         assert !data.isEmpty() : "data should be in proper save format";
@@ -78,12 +78,13 @@ public class SaveSystem {
      * @param data The new data that is being saved.
      */
     public static void update(int index, String data) {
-        if (!write) {
+        if (!shouldWrite) {
             return;
         }
         assert !data.isEmpty() : "data should be in proper save format";
 
         allLines.set(index, data);
+
         try {
             Files.write(filePath, allLines);
         } catch (IOException e) {
@@ -97,12 +98,14 @@ public class SaveSystem {
      * @param index The index of the task.
      */
     public static void delete(int index) {
-        if (!write) {
+        if (!shouldWrite) {
             return;
         }
+
         assert  index >= 0 : "Index should be valid";
 
         allLines.remove(index);
+
         try {
             Files.write(filePath, allLines);
         } catch (IOException e) {

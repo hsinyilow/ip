@@ -11,40 +11,41 @@ public class Parser {
     /**
      * Parses from full command to command data.
      * @param command The command to be parsed.
-     * @param min Characters to trim, minimum character to consider as the command.
-     * @param removeSpace Whether space characters are allowed in parsed command.
+     * @param minTrim Characters to trim, minimum character to consider as the command.
+     * @param shouldRemoveSpace Whether space characters are allowed in parsed command.
      * @return Data from the command.
      */
-    public static String parseCommand(String command, int min, boolean removeSpace) {
-        if (command.length() <= min) {
+    public static String parseCommand(String command, int minTrim, boolean shouldRemoveSpace) {
+        if (command.length() <= minTrim) {
             return "";
         }
-        command = command.substring(min);
 
+        command = command.substring(minTrim);
         assert !command.isEmpty() : "string should have content";
 
-        if (removeSpace) {
+        if (shouldRemoveSpace) {
             command = command.replace(" ", "");
         }
+
         return command.trim();
     }
 
     /**
      * Parses commands that has integer data.
      * @param command The command to be parsed.
-     * @param min Characters to trim, minimum character to consider as the command.
+     * @param minTrim Characters to trim, minimum character to consider as the command.
      * @return Integer data from the command.
      * @throws AstraException If the command is invalid or the data is not an integer.
      */
-    public static int parseIntCommand(String command, int min) throws AstraException {
-        command = Parser.parseCommand(command, min, true);
+    public static int parseIntCommand(String command, int minTrim) throws AstraException {
+        command = Parser.parseCommand(command, minTrim, true);
+
         if (command.isEmpty()) {
             throw new AstraException("This is an invalid command");
         }
 
         try {
             return Integer.parseInt(command);
-
         } catch (NumberFormatException e) {
             throw new AstraException("This command requires a number");
         }
@@ -71,17 +72,19 @@ public class Parser {
         try {
             LocalDate date = LocalDate.parse(parseInput[0]);
             LocalTime time = LocalTime.MIN;
-            if (parseInput.length != 1) {
-                time = LocalTime.of(Integer.parseInt(parseInput[1].substring(0, 2)),
-                        Integer.parseInt(parseInput[1].substring(2)));
 
-                return new TimeData(LocalDateTime.of(date, time), true);
+            if (parseInput.length == 1) {
+                return new TimeData(LocalDateTime.of(date, time), false);
             }
-            return new TimeData(LocalDateTime.of(date, time), false);
+
+            time = LocalTime.of(Integer.parseInt(parseInput[1].substring(0, 2)),
+                    Integer.parseInt(parseInput[1].substring(2)));
+
+            return new TimeData(LocalDateTime.of(date, time), true);
+
         } catch (Exception e) {
             throw new AstraException("Invalid date time format");
         }
-
 
     }
 }
