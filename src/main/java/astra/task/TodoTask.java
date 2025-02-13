@@ -1,7 +1,9 @@
 package astra.task;
 
+import astra.gui.MainWindow;
 import astra.system.AstraException;
 import astra.system.Parser;
+import astra.system.Ui;
 
 /**
  * Is a todo task.
@@ -13,14 +15,19 @@ public class TodoTask extends Task {
      * @param description description of the todo task.
      * @param isDone completion status of the todo task.
      */
-    private TodoTask(String description, boolean isDone){
+    private TodoTask(String description, boolean isDone) {
         this.description = description;
         this.isDone = isDone;
     }
 
-
+    /**
+     * Tries to create a new TodoTask with the given information
+     * @param input The full command.
+     * @return a new functional TodoTask object.
+     * @throws AstraException If there are any invalid information or the save file is corrupted.
+     */
     public static TodoTask createNewTask(String input) throws AstraException {
-        assert  input.startsWith("T") || input.startsWith("todo")
+        assert input.startsWith("T") || input.startsWith("todo")
                 : "The todo task object constructor should not have been called";
 
         if (input.startsWith("T ")) {
@@ -42,6 +49,33 @@ public class TodoTask extends Task {
             }
             return new TodoTask(description, false);
         }
+    }
+
+    /**
+     * Updates the task with new information.
+     * @param input possible changes made to the tasks.
+     * @throws AstraException If the provided type of detail does not exist.
+     */
+    @Override
+    void updateDetails(String input) throws AstraException {
+        int commandBreak = input.indexOf(" ");
+        String detailType = input.substring(0, commandBreak);
+
+        if (detailType.equals("desc")) {
+            String newDescription = input.substring(commandBreak);
+            newDescription = Parser.parseCommand(newDescription, 0, false);
+
+            if (newDescription.isEmpty()) {
+                throw new AstraException("new description cannot be empty");
+            }
+
+            description = newDescription;
+        } else {
+            throw new AstraException("this task detail type does not exist");
+        }
+
+        Ui.feedbackMessage("Updated:", displayTask());
+        MainWindow.addMessage("Updated:", displayTask());
     }
 
     /**

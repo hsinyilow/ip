@@ -102,7 +102,7 @@ public class SaveSystem {
             return;
         }
 
-        assert  index >= 0 : "Index should be valid";
+        assert index >= 0 : "Index should be valid";
 
         allLines.remove(index);
 

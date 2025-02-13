@@ -37,10 +37,18 @@ public abstract class Task {
     }
 
     /**
+     * Updates the task with new information.
+     * @param input possible changes made to the tasks.
+     * @throws AstraException If the provided type of detail does not exist.
+     */
+    abstract void updateDetails(String input) throws AstraException;
+
+    /**
      * Formats the data in display format.
      * @return Formatted data string.
      */
     abstract String displayTask();
+
 
     /**
      * Formats the data in save format.

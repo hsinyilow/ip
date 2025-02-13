@@ -1,8 +1,10 @@
 package astra.task;
 
+import astra.gui.MainWindow;
 import astra.system.AstraException;
 import astra.system.Parser;
 import astra.system.TimeData;
+import astra.system.Ui;
 
 /**
  * Is an event task.
@@ -22,8 +24,14 @@ public class EventTask extends Task {
         this.timings = timings;
     }
 
+    /**
+     * Tries to create a new EventTask with the given information
+     * @param input The full command.
+     * @return a new functional EventTask object.
+     * @throws AstraException If there are any invalid information or the save file is corrupted.
+     */
     public static EventTask createNewTask(String input) throws AstraException {
-        assert  input.startsWith("E") || input.startsWith("event")
+        assert input.startsWith("E") || input.startsWith("event")
                 : "The event task object constructor should not have been called";
 
         if (input.startsWith("E ")) {
@@ -61,6 +69,43 @@ public class EventTask extends Task {
             TimeData[] timings = {Parser.parseTime(timeFrom), Parser.parseTime(timeTo)};
             return new EventTask(description, false, timings);
         }
+    }
+
+    /**
+     * Updates the task with new information.
+     * @param input possible changes made to the tasks.
+     * @throws AstraException If the provided type of detail does not exist.
+     */
+    @Override
+    void updateDetails(String input) throws AstraException {
+        int commandBreak = input.indexOf(" ");
+        String detailType = input.substring(0, commandBreak);
+
+        if (detailType.equals("desc")) {
+            String newDescription = input.substring(commandBreak);
+            newDescription = Parser.parseCommand(newDescription, 0, false);
+
+            if (newDescription.isEmpty()) {
+                throw new AstraException("new description cannot be empty");
+            }
+
+            description = newDescription;
+        } else if (detailType.equals("from") || detailType.equals("to")) {
+            String newTiming = input.substring(commandBreak);
+            newTiming = Parser.parseCommand(newTiming, 0, false);
+
+            if (newTiming.isEmpty()) {
+                throw new AstraException("Invalid timing");
+            }
+            int timingType = detailType.equals("from") ? 0 : 1;
+            timings[timingType] = Parser.parseTime(newTiming);
+
+        } else {
+            throw new AstraException("this task detail type does not exist");
+        }
+
+        Ui.feedbackMessage("Updated:", displayTask());
+        MainWindow.addMessage("Updated:", displayTask());
     }
 
     /**

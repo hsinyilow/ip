@@ -1,8 +1,10 @@
 package astra.task;
 
+import astra.gui.MainWindow;
 import astra.system.AstraException;
 import astra.system.Parser;
 import astra.system.TimeData;
+import astra.system.Ui;
 
 /**
  * Is a deadline task.
@@ -22,9 +24,14 @@ public class DeadlineTask extends Task {
         this.deadline = deadline;
     }
 
-
+    /**
+     * Tries to create a new DeadlineTask with the given information
+     * @param input The full command.
+     * @return a new functional DeadlineTask object.
+     * @throws AstraException If there are any invalid information or the save file is corrupted.
+     */
     public static DeadlineTask createNewTask(String input) throws AstraException {
-        assert  input.startsWith("D") || input.startsWith("deadline")
+        assert input.startsWith("D") || input.startsWith("deadline")
                 : "The deadline task object constructor should not have been called";
 
         if (input.startsWith("D ")) {
@@ -41,20 +48,58 @@ public class DeadlineTask extends Task {
             String[] parseInput = input.split("/by");
 
             if (parseInput.length != 2) {
-                throw new AstraException("Invalid Deadline astra.task.Task command");
+                throw new AstraException("Invalid Deadline task command");
             }
 
             String description = Parser.parseCommand(parseInput[0], 9, false);
             String deadline = Parser.parseCommand(parseInput[1], 0, false);
 
             if (description.isEmpty()) {
-                throw new AstraException("Invalid astra.task.Task description");
+                throw new AstraException("Invalid task description");
             } else if (deadline.isEmpty()) {
-                throw new AstraException("Invalid astra.task.Task deadline");
+                throw new AstraException("Invalid task deadline");
             }
 
             return new DeadlineTask(description, false, Parser.parseTime(deadline));
         }
+    }
+
+    /**
+     * Updates the task with new information.
+     * @param input possible changes made to the tasks.
+     * @throws AstraException If the provided type of detail does not exist.
+     */
+    @Override
+    void updateDetails(String input) throws AstraException {
+        int commandBreak = input.indexOf(" ");
+        String detailType = input.substring(0, commandBreak);
+        System.out.println(detailType);
+        if (detailType.equals("desc")) {
+            String newDescription = input.substring(commandBreak);
+            newDescription = Parser.parseCommand(newDescription, 0, false);
+
+            if (newDescription.isEmpty()) {
+                throw new AstraException("new description cannot be empty");
+            }
+
+            description = newDescription;
+
+        } else if (detailType.equals("by")) {
+            String newDeadline = input.substring(commandBreak);
+            newDeadline = Parser.parseCommand(newDeadline, 0, false);
+
+            if (newDeadline.isEmpty()) {
+                throw new AstraException("Invalid deadline");
+            }
+
+            deadline = Parser.parseTime(newDeadline);
+
+        } else {
+            throw new AstraException("this task detail type does not exist");
+        }
+
+        Ui.feedbackMessage("Updated:", displayTask());
+        MainWindow.addMessage("Updated:", displayTask());
     }
 
     /**
@@ -63,8 +108,7 @@ public class DeadlineTask extends Task {
      */
     @Override
     public String displayTask() {
-        return String.format("[D][%s] %s (by: %s)",
-                (isDone ? "X" : " "), description, deadline.displayTimeData());
+        return String.format("[D][%s] %s (by: %s)", (isDone ? "X" : " "), description, deadline.displayTimeData());
     }
 
     /**
