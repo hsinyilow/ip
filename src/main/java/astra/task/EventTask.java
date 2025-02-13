@@ -16,6 +16,8 @@ public class EventTask extends Task {
      * @throws AstraException If any of the task data is invalid or if the command is invalid.
      */
     public EventTask(String input) throws AstraException {
+        assert  input.startsWith("E") || input.startsWith("event")
+                : "The event task object constructor should not have been called";
         if (input.startsWith("E ")) {
             String[] parseInput = Parser.parseSaveFile(input);
             if (parseInput.length == 1) {

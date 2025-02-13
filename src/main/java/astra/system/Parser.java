@@ -20,6 +20,9 @@ public class Parser {
             return "";
         }
         command = command.substring(min);
+
+        assert !command.isEmpty() : "string should have content";
+
         if (removeSpace) {
             command = command.replace(" ", "");
         }
