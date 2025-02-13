@@ -15,7 +15,12 @@ import astra.system.Ui;
 public class TaskList {
     private ArrayList<Task> tasks = new ArrayList<>();
     private int counter = 0;
-    public enum TaskType {TODO, DEADLINE, EVENT}
+
+    /**
+     * Holds are the current types of task available.
+     */
+    public enum TaskType { TODO, DEADLINE, EVENT }
+
     /**
      * Adds a new task the task list.
      * @param input The add task command or remaining commands.
@@ -116,6 +121,26 @@ public class TaskList {
     }
 
     /**
+     * Tries to the specified task with new information.
+     * It can display an error if the new information is invalid or the command is invalid.
+     * @param input The full update task command in the format: update [list number] /[taskSection] [new update]
+     */
+    public void updateTask(String input) {
+        String[] splitCommand = input.split("/");
+
+        try {
+            int taskIndex = Parser.parseIntCommand(splitCommand[0], 7) - 1;
+            Task currentTask = tasks.get(taskIndex);
+            currentTask.updateDetails(splitCommand[1]);
+
+            SaveSystem.update(taskIndex, currentTask.saveString());
+
+        } catch (AstraException e) {
+            Ui.feedbackError(e.getMessage());
+        }
+    }
+
+    /**
      * Displays all the tasks in the task list.
      */
     public void displayTaskList() {
@@ -156,6 +181,8 @@ public class TaskList {
             displayTaskList();
         } else if (input.startsWith("delete")) {
             deleteTask(input);
+        } else if (input.startsWith("update")) {
+            updateTask(input);
         } else if (input.startsWith("mark") || input.startsWith("unmark")) {
             markTask(input);
         } else if (input.startsWith("find")) {

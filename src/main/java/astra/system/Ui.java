@@ -34,6 +34,11 @@ public class Ui {
         MainWindow.addMessage("An error has been encountered:", error);
     }
 
+    /**
+     * Displays all the chatbot messages on the screen.
+     * This is for terminal user feedback.
+     * @param messages The messages to be displayed.
+     */
     public static void feedbackMessage(String... messages) {
         for (int i = 0; i < messages.length; i++) {
             System.out.println(messages[i]);
