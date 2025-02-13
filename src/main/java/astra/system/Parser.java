@@ -21,6 +21,8 @@ public class Parser {
         }
 
         command = command.substring(minTrim);
+        assert !command.isEmpty() : "string should have content";
+
         if (shouldRemoveSpace) {
             command = command.replace(" ", "");
         }

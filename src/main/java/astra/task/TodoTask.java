@@ -20,6 +20,9 @@ public class TodoTask extends Task {
 
 
     public static TodoTask createNewTask(String input) throws AstraException {
+        assert  input.startsWith("T") || input.startsWith("todo")
+                : "The todo task object constructor should not have been called";
+
         if (input.startsWith("T ")) {
             /* handle input from save file*/
             String[] parseInput = Parser.parseSaveFile(input);

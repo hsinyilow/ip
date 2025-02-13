@@ -24,6 +24,9 @@ public class DeadlineTask extends Task {
 
 
     public static DeadlineTask createNewTask(String input) throws AstraException {
+        assert  input.startsWith("D") || input.startsWith("deadline")
+                : "The deadline task object constructor should not have been called";
+
         if (input.startsWith("D ")) {
             /* handle input from save file*/
             String[] parseInput = Parser.parseSaveFile(input);

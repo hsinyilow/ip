@@ -62,7 +62,7 @@ public class SaveSystem {
         if (!shouldWrite) {
             return;
         }
-
+        assert !data.isEmpty() : "data should be in proper save format";
         try (FileWriter fileWriter = new FileWriter(filePath.toString(), true)) {
             fileWriter.append(data);
             fileWriter.append(System.lineSeparator());
@@ -81,6 +81,7 @@ public class SaveSystem {
         if (!shouldWrite) {
             return;
         }
+        assert !data.isEmpty() : "data should be in proper save format";
 
         allLines.set(index, data);
 
@@ -100,6 +101,8 @@ public class SaveSystem {
         if (!shouldWrite) {
             return;
         }
+
+        assert  index >= 0 : "Index should be valid";
 
         allLines.remove(index);
 

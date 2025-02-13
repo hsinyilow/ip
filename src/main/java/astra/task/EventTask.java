@@ -23,6 +23,9 @@ public class EventTask extends Task {
     }
 
     public static EventTask createNewTask(String input) throws AstraException {
+        assert  input.startsWith("E") || input.startsWith("event")
+                : "The event task object constructor should not have been called";
+
         if (input.startsWith("E ")) {
             /* handle input from save file*/
             String[] parseInput = Parser.parseSaveFile(input);
