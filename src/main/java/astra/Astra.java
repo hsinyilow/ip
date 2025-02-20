@@ -45,6 +45,8 @@ public class Astra {
         Ui.end();
     }
 
+
+
     public static void main(String[] args) {
         new Astra("data/astraData.txt").runAstra();
     }

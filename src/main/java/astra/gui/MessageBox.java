@@ -62,7 +62,7 @@ public class MessageBox extends HBox {
     public static MessageBox getAstraDialog(String s) {
         MessageBox mb = new MessageBox(s, 2);
         mb.flip();
-        mb.setAlignment(Pos.CENTER_LEFT);
+        //mb.setAlignment(Pos.CENTER_LEFT);
         return mb;
     }
 

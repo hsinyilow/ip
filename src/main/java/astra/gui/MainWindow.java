@@ -43,31 +43,53 @@ public class MainWindow extends AnchorPane {
     }
 
     /**
-     * Handles all the user input
+     * Handles all the user input.
      */
     @FXML
     private void handleUserInput() {
         String userText = userInput.getText();
-        taskList.command(userText);
+
         dialogContainer.getChildren().addAll(
                 MessageBox.getUserDialog(userText)
         );
-        for (int i = 0; i < messageList.size(); i++) {
-            dialogContainer.getChildren().add(MessageBox.getAstraDialog(messageList.get(i)));
-        }
-
-        messageList.clear();
 
         userInput.clear();
+
+        if (userText.equals("bye")) {
+            Ui.end();
+            handleAstraOutput();
+            return;
+        } else if (userText.equals("help")) {
+            Ui.help();
+            handleAstraOutput();
+            return;
+        }
+
+        taskList.command(userText);
+        handleAstraOutput();
+
+
     }
 
     /**
      * Handles the chatbot output.
      */
     private void handleAstraOutput() {
-        for (int i = 0; i < messageList.size(); i++) {
-            dialogContainer.getChildren().add(MessageBox.getAstraDialog(messageList.get(i)));
+
+        StringBuilder combinedReply = new StringBuilder();
+        int totalMessages = messageList.size();
+        for (int i = 0; i < totalMessages; i++) {
+            combinedReply.append(messageList.get(i));
+
+            if (i == totalMessages - 1) {
+                break;
+            }
+
+            combinedReply.append("\n");
         }
+
+        dialogContainer.getChildren().add(MessageBox.getAstraDialog(combinedReply.toString()));
+
 
         messageList.clear();
     }
@@ -77,6 +99,7 @@ public class MainWindow extends AnchorPane {
      * @param messages the message to show.
      */
     public static void addMessage(String... messages) {
+
         for (int i = 0; i < messages.length; i++) {
             messageList.add(messages[i]);
         }

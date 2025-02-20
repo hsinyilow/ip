@@ -77,8 +77,9 @@ public class Parser {
                 return new TimeData(LocalDateTime.of(date, time), false);
             }
 
-            time = LocalTime.of(Integer.parseInt(parseInput[1].substring(0, 2)),
-                    Integer.parseInt(parseInput[1].substring(2)));
+            String[] splitTime = parseInput[1].split(":");
+            time = LocalTime.of(Integer.parseInt(splitTime[0]),
+                    Integer.parseInt(splitTime[1]), 0);
 
             return new TimeData(LocalDateTime.of(date, time), true);
 
