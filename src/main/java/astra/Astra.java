@@ -1,5 +1,6 @@
 package astra;
 
+import java.io.File;
 import java.util.Scanner;
 
 import astra.system.SaveSystem;
@@ -9,7 +10,7 @@ import astra.task.TaskList;
 
 
 /**
- * Is the chatbot
+ * Starts the chatbot for CLI users and testing.
  */
 public class Astra {
 
@@ -17,15 +18,16 @@ public class Astra {
 
     /**
      * Initializes the chatbot.
+     *
      * @param filePath file path of save file.
      */
     public Astra(String filePath) {
         SaveSystem.loadSaveFile(filePath, taskList);
-        Ui.greet();
+        Ui.greetUser();
     }
 
     /**
-     * Command and result loop
+     * Runs the command and feedback loop.
      */
     public void runAstra() {
         Scanner scanner = new Scanner(System.in);
@@ -42,12 +44,12 @@ public class Astra {
 
         /*End the conversation */
         scanner.close();
-        Ui.end();
+        Ui.sayGoodbye();
     }
 
 
-
     public static void main(String[] args) {
-        new Astra("data/astraData.txt").runAstra();
+        String filePath = "data" + File.separator + "astraData.txt";
+        new Astra(filePath).runAstra();
     }
 }

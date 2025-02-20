@@ -30,7 +30,7 @@ public class ParserTest {
     @Test
     public void timeTest1() {
         try {
-            assertEquals("01 December 1925" , Parser.parseTime("1925-12-01").displayTimeData());
+            assertEquals("01 December 1925" , Parser.parseTime("1925-12-01").displayDateTime());
 
         } catch (Exception e) {
             fail();
@@ -41,7 +41,7 @@ public class ParserTest {
     @Test
     public void timeTest2() {
         try {
-            Parser.parseTime("11-01-1025").displayTimeData();
+            Parser.parseTime("11-01-1025").displayDateTime();
 
         } catch (Exception e) {
             assertEquals("Invalid date time format", e.getMessage());

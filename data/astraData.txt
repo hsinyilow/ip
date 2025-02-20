@@ -2,6 +2,7 @@ D | false | new task | 2019-02-01T00:00 false
 D | false | b | 2019-05-01T00:00 false
 D | false | a | 2019-02-12T00:00 false
 T | false | a
-T | false | b
 D | false | task here | 2019-03-02T00:00 false
 D | false | a | 2019-01-01T23:59 true
+E | false | c | 2020-01-01T10:30 true | 2020-01-02T00:00 false
+T | false | something

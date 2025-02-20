@@ -1,5 +1,6 @@
 package astra.gui;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import astra.system.SaveSystem;
@@ -11,7 +12,6 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
-
 
 
 /**
@@ -36,9 +36,12 @@ public class MainWindow extends AnchorPane {
     @FXML
     public void initialize() {
         scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
-        SaveSystem.loadSaveFile("data/astraData.txt", taskList);
+
+        String filePath = "data" + File.separator + "astraData.txt";
+        SaveSystem.loadSaveFile(filePath, taskList);
         MainWindow.messageList.clear();
-        Ui.greet();
+
+        Ui.greetUser();
         handleAstraOutput();
     }
 
@@ -47,59 +50,54 @@ public class MainWindow extends AnchorPane {
      */
     @FXML
     private void handleUserInput() {
+        //Handles the user message output.
         String userText = userInput.getText();
-
-        dialogContainer.getChildren().addAll(
-                MessageBox.getUserDialog(userText)
-        );
-
+        MessageBox userMessage = MessageBox.getUserDialog(userText);
+        dialogContainer.getChildren().addAll(userMessage);
         userInput.clear();
 
+        //Handles the main commands unrelated to tasks.
         if (userText.equals("bye")) {
-            Ui.end();
+            Ui.sayGoodbye();
             handleAstraOutput();
             return;
         } else if (userText.equals("help")) {
-            Ui.help();
+            Ui.displayHelpMenu();
             handleAstraOutput();
             return;
         }
 
+        //Handles the rest of the commands.
         taskList.command(userText);
         handleAstraOutput();
-
-
     }
 
     /**
      * Handles the chatbot output.
      */
     private void handleAstraOutput() {
-
+        //Combine all the strings into a single message.
         StringBuilder combinedReply = new StringBuilder();
         int totalMessages = messageList.size();
         for (int i = 0; i < totalMessages; i++) {
             combinedReply.append(messageList.get(i));
-
-            if (i == totalMessages - 1) {
-                break;
+            if (i != totalMessages - 1) {
+                combinedReply.append(System.lineSeparator());
             }
-
-            combinedReply.append("\n");
         }
 
-        dialogContainer.getChildren().add(MessageBox.getAstraDialog(combinedReply.toString()));
-
+        MessageBox astraMessage = MessageBox.getAstraDialog(combinedReply.toString());
+        dialogContainer.getChildren().add(astraMessage);
 
         messageList.clear();
     }
 
     /**
      * Adds message to the list that is being shown.
-     * @param messages the message to show.
+     *
+     * @param messages The collection of messages to show.
      */
     public static void addMessage(String... messages) {
-
         for (int i = 0; i < messages.length; i++) {
             messageList.add(messages[i]);
         }

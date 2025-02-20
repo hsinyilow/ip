@@ -25,11 +25,17 @@ public class MessageBox extends HBox {
     private ImageView displayPicture;
 
     /**
-     * Initializes the message box.
-     * @param text the message to display.
-     * @param image feedback who sent the message.
+     * Holds all the current types of avatar available.
      */
-    private MessageBox(String text, int image) {
+    public enum ImageType { ASTRA, USER }
+
+    /**
+     * Initializes the message box.
+     *
+     * @param text The message to display.
+     * @param imageType The feedback who sent the message.
+     */
+    private MessageBox(String text, ImageType imageType) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(MainWindow.class.getResource("/view/MessageBox.fxml"));
             fxmlLoader.setController(this);
@@ -40,30 +46,50 @@ public class MessageBox extends HBox {
         }
 
         dialog.setText(text);
-        if (image == 1) {
-            displayPicture.setImage(userImage);
-        } else {
-            displayPicture.setImage(astraImage);
-        }
 
+        switch (imageType) {
+        case ASTRA:
+            displayPicture.setImage(astraImage);
+            break;
+        case USER:
+            displayPicture.setImage(userImage);
+            break;
+        default:
+            displayPicture.setImage(astraImage);
+            break;
+        }
     }
 
+    /**
+     * Handles the positioning of the message box.
+     */
     private void flip() {
         this.setAlignment(Pos.TOP_LEFT);
-        ObservableList<Node> tmp = FXCollections.observableArrayList(this.getChildren());
-        FXCollections.reverse(tmp);
-        this.getChildren().setAll(tmp);
+        ObservableList<Node> nodes = FXCollections.observableArrayList(this.getChildren());
+        FXCollections.reverse(nodes);
+        this.getChildren().setAll(nodes);
     }
 
-    public static MessageBox getUserDialog(String s) {
-        return new MessageBox(s, 1);
+    /**
+     * Returns a MessageBox containing a user's message.
+     *
+     * @param message The message to be displayed in the dialogue.
+     * @return MessageBox containing a user's message.
+     */
+    public static MessageBox getUserDialog(String message) {
+        return new MessageBox(message, ImageType.USER);
     }
 
-    public static MessageBox getAstraDialog(String s) {
-        MessageBox mb = new MessageBox(s, 2);
-        mb.flip();
-        //mb.setAlignment(Pos.CENTER_LEFT);
-        return mb;
+    /**
+     * Returns a MessageBox containing Astra's message.
+     *
+     * @param message The message to be displayed in the dialogue.
+     * @return MessageBox containing Astra's message.
+     */
+    public static MessageBox getAstraDialog(String message) {
+        MessageBox astraMessage = new MessageBox(message, ImageType.ASTRA);
+        astraMessage.flip();
+        return astraMessage;
     }
 
 }

@@ -3,36 +3,39 @@ package astra.task;
 import astra.gui.MainWindow;
 import astra.system.AstraException;
 import astra.system.Parser;
-import astra.system.TimeData;
+import astra.system.DateTimeData;
 import astra.system.Ui;
 
 /**
- * Is a deadline task.
+ * Creates and handle a deadline task.
  */
 public class DeadlineTask extends Task {
-    private TimeData deadline;
+    private DateTimeData deadline;
 
     /**
      * Initializes a deadline task object.
-     * @param description description of deadline task.
-     * @param isDone completion state of deadline task.
-     * @param deadline deadline of deadline task.
+     *
+     * @param description The description of deadline task.
+     * @param isDone The completion state of deadline task.
+     * @param deadline The deadline of deadline task.
      */
-    private DeadlineTask(String description, boolean isDone, TimeData deadline) {
+    private DeadlineTask(String description, boolean isDone, DateTimeData deadline) {
         this.description = description;
         this.isDone = isDone;
         this.deadline = deadline;
     }
 
+
     /**
-     * Tries to create a new DeadlineTask with the given information
+     * Creates a new DeadlineTask with the given information.
+     *
      * @param input The full command.
      * @return a new functional DeadlineTask object.
      * @throws AstraException If there are any invalid information or the save file is corrupted.
      */
     public static DeadlineTask createNewTask(String input) throws AstraException {
-        assert input.startsWith("D") || input.startsWith("deadline")
-                : "The deadline task object constructor should not have been called";
+        assert input.startsWith("D") : "The deadline task object constructor should not have been called";
+        assert input.startsWith("deadline") : "The deadline task object constructor should not have been called";
 
         if (input.startsWith("D ")) {
             /* handle input from save file*/
@@ -42,7 +45,7 @@ public class DeadlineTask extends Task {
                 throw new AstraException("Save file is corrupted");
             }
 
-            return new DeadlineTask(parseInput[2], parseInput[1].equals("true"), new TimeData(parseInput[3]));
+            return new DeadlineTask(parseInput[2], parseInput[1].equals("true"), new DateTimeData(parseInput[3]));
         } else {
             /* handle input from user */
             String[] parseInput = input.split("/by");
@@ -64,16 +67,18 @@ public class DeadlineTask extends Task {
         }
     }
 
+
     /**
      * Updates the task with new information.
-     * @param input possible changes made to the tasks.
+     *
+     * @param input The possible changes made to the tasks.
      * @throws AstraException If the provided type of detail does not exist.
      */
     @Override
     void updateDetails(String input) throws AstraException {
         int commandBreak = input.indexOf(" ");
         String detailType = input.substring(0, commandBreak);
-        System.out.println(detailType);
+
         if (detailType.equals("desc")) {
             String newDescription = input.substring(commandBreak);
             newDescription = Parser.parseCommand(newDescription, 0, false);
@@ -98,25 +103,27 @@ public class DeadlineTask extends Task {
             throw new AstraException("this task detail type does not exist");
         }
 
-        Ui.feedbackMessage("Updated:", displayTask());
+        Ui.displayMessage("Updated:", displayTask());
         MainWindow.addMessage("Updated:", displayTask());
     }
 
     /**
      * Formats the data in display format.
+     *
      * @return Formatted data string.
      */
     @Override
     public String displayTask() {
-        return String.format("[D][%s] %s (by: %s)", (isDone ? "X" : " "), description, deadline.displayTimeData());
+        return String.format("[D][%s] %s (by: %s)", (isDone ? "X" : " "), description, deadline.displayDateTime());
     }
 
     /**
      * Formats the data in save format.
+     *
      * @return Formatted data string.
      */
     @Override
     protected String saveString() {
-        return String.format("D | %b | %s | %s", isDone, description, deadline.saveData());
+        return String.format("D | %b | %s | %s", isDone, description, deadline.saveDateTimeData());
     }
 }

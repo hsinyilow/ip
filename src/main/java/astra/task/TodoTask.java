@@ -6,12 +6,13 @@ import astra.system.Parser;
 import astra.system.Ui;
 
 /**
- * Is a todo task.
+ * Creates and handles a todo task.
  */
 public class TodoTask extends Task {
 
     /**
      * Initializes a todo task object.
+     *
      * @param description description of the todo task.
      * @param isDone completion status of the todo task.
      */
@@ -21,7 +22,8 @@ public class TodoTask extends Task {
     }
 
     /**
-     * Tries to create a new TodoTask with the given information
+     * Creates a new TodoTask with the given information.
+     *
      * @param input The full command.
      * @return a new functional TodoTask object.
      * @throws AstraException If there are any invalid information or the save file is corrupted.
@@ -53,6 +55,7 @@ public class TodoTask extends Task {
 
     /**
      * Updates the task with new information.
+     *
      * @param input possible changes made to the tasks.
      * @throws AstraException If the provided type of detail does not exist.
      */
@@ -74,12 +77,13 @@ public class TodoTask extends Task {
             throw new AstraException("this task detail type does not exist");
         }
 
-        Ui.feedbackMessage("Updated:", displayTask());
+        Ui.displayMessage("Updated:", displayTask());
         MainWindow.addMessage("Updated:", displayTask());
     }
 
     /**
      * Formats the data in save format.
+     *
      * @return Formatted data string.
      */
     @Override
@@ -89,6 +93,7 @@ public class TodoTask extends Task {
 
     /**
      * Formats the data in display format.
+     *
      * @return Formatted data string.
      */
     @Override

@@ -10,6 +10,7 @@ import java.time.LocalTime;
 public class Parser {
     /**
      * Parses from full command to command data.
+     *
      * @param command The command to be parsed.
      * @param minTrim Characters to trim, minimum character to consider as the command.
      * @param shouldRemoveSpace Whether space characters are allowed in parsed command.
@@ -32,8 +33,9 @@ public class Parser {
 
     /**
      * Parses commands that has integer data.
+     *
      * @param command The command to be parsed.
-     * @param minTrim Characters to trim, minimum character to consider as the command.
+     * @param minTrim Characters to trim, the minimum character to consider as the command.
      * @return Integer data from the command.
      * @throws AstraException If the command is invalid or the data is not an integer.
      */
@@ -52,8 +54,9 @@ public class Parser {
     }
 
     /**
-     * Parses save file data.
-     * @param input Is the raw data from the save file.
+     * Parses data from save file.
+     *
+     * @param input The raw data from the save file.
      * @return an array of data from the save file.
      */
     public static String[] parseSaveFile(String input) {
@@ -62,11 +65,12 @@ public class Parser {
 
     /**
      * Parses data related to date and time.
+     *
      * @param input Data string of the specified format.
      * @return TimeData class containing all the necessary data.
      * @throws AstraException If string is in an invalid format.
      */
-    public static TimeData parseTime(String input) throws AstraException {
+    public static DateTimeData parseTime(String input) throws AstraException {
         String[] parseInput = input.split(" ");
 
         try {
@@ -74,15 +78,19 @@ public class Parser {
             LocalTime time = LocalTime.MIN;
 
             if (parseInput.length == 1) {
-                return new TimeData(LocalDateTime.of(date, time), false);
+                return new DateTimeData(LocalDateTime.of(date, time), false);
             }
 
+            //Creates and save the time object with the date.
             String[] splitTime = parseInput[1].split(":");
-            time = LocalTime.of(Integer.parseInt(splitTime[0]),
-                    Integer.parseInt(splitTime[1]), 0);
+            int hours = Integer.parseInt(splitTime[0]);
+            int minutes = Integer.parseInt(splitTime[1]);
+            time = LocalTime.of(hours, minutes);
 
-            return new TimeData(LocalDateTime.of(date, time), true);
+            return new DateTimeData(LocalDateTime.of(date, time), true);
 
+        } catch (NumberFormatException e) {
+            throw new AstraException("Time requires a number");
         } catch (Exception e) {
             throw new AstraException("Invalid date time format");
         }

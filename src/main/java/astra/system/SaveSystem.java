@@ -19,11 +19,14 @@ import astra.task.TaskList;
 public class SaveSystem {
     private static Path filePath;
     private static boolean shouldWrite = false;
+
+    /** Holds all the task data lines in save format while the application is running. */
     private static List<String> allLines = new ArrayList<>();
 
     /**
      * Loads all the data from the save file.
      * Data is loaded into the specified task list.
+     *
      * @param path File path of the save file.
      * @param taskList The task list that the data is going to be saved.
      */
@@ -31,7 +34,7 @@ public class SaveSystem {
         filePath = Paths.get(path);
 
         if (Files.exists(filePath)) {
-            //load save file
+            //load save file into the task list when a file exists.
             try {
                 allLines = readAllLines(filePath);
 
@@ -39,15 +42,14 @@ public class SaveSystem {
                     taskList.command(allLines.get(i));
                 }
             } catch (IOException e) {
-                Ui.feedbackError("Error in loading a save file.");
+                Ui.displayAstraError("Error in loading a save file.");
             }
 
         } else {
-            //create new file
             try {
                 Files.createFile(filePath);
             } catch (IOException e) {
-                Ui.feedbackError("Error in creating a save file.");
+                Ui.displayAstraError("Error in creating a save file.");
             }
         }
 
@@ -56,28 +58,31 @@ public class SaveSystem {
 
     /**
      * Adds new task data to the save file.
+     *
      * @param data The data that is being saved.
      */
-    public static void add(String data) {
+    public static void addData(String data) {
         if (!shouldWrite) {
             return;
         }
         assert !data.isEmpty() : "data should be in proper save format";
+
         try (FileWriter fileWriter = new FileWriter(filePath.toString(), true)) {
             fileWriter.append(data);
             fileWriter.append(System.lineSeparator());
             allLines.add(data);
         } catch (IOException e) {
-            Ui.feedbackError("Error in saving a task.");
+            Ui.displayAstraError("Error in saving a task.");
         }
     }
 
     /**
      * Updates the specified task data in the save file.
+     *
      * @param index The index of the task.
      * @param data The new data that is being saved.
      */
-    public static void update(int index, String data) {
+    public static void updateData(int index, String data) {
         if (!shouldWrite) {
             return;
         }
@@ -88,16 +93,17 @@ public class SaveSystem {
         try {
             Files.write(filePath, allLines);
         } catch (IOException e) {
-            Ui.feedbackError("Error in saving the changes.");
+            Ui.displayAstraError("Error in saving the changes.");
         }
 
     }
 
     /**
      * Deletes the specified task data from the save file.
+     *
      * @param index The index of the task.
      */
-    public static void delete(int index) {
+    public static void deleteData(int index) {
         if (!shouldWrite) {
             return;
         }
@@ -109,7 +115,7 @@ public class SaveSystem {
         try {
             Files.write(filePath, allLines);
         } catch (IOException e) {
-            Ui.feedbackError("Error in saving the changes.");
+            Ui.displayAstraError("Error in saving the changes.");
         }
     }
 }

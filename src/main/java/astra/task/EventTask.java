@@ -3,29 +3,31 @@ package astra.task;
 import astra.gui.MainWindow;
 import astra.system.AstraException;
 import astra.system.Parser;
-import astra.system.TimeData;
+import astra.system.DateTimeData;
 import astra.system.Ui;
 
 /**
- * Is an event task.
+ * Creates and handle an event task.
  */
 public class EventTask extends Task {
-    protected TimeData[] timings;
+    protected DateTimeData[] timings;
 
     /**
      * Initializes an event task object.
+     *
      * @param description description of event task.
      * @param isDone completion state of event class.
      * @param timings start and end time of event task.
      */
-    private EventTask(String description, boolean isDone, TimeData[] timings) {
+    private EventTask(String description, boolean isDone, DateTimeData[] timings) {
         this.description = description;
         this.isDone = isDone;
         this.timings = timings;
     }
 
     /**
-     * Tries to create a new EventTask with the given information
+     * Creates a new EventTask with the given information.
+     *
      * @param input The full command.
      * @return a new functional EventTask object.
      * @throws AstraException If there are any invalid information or the save file is corrupted.
@@ -42,7 +44,7 @@ public class EventTask extends Task {
                 throw new AstraException("Corrupted save file");
             }
 
-            TimeData[] timings = {new TimeData(parseInput[3]), new TimeData(parseInput[4])};
+            DateTimeData[] timings = {new DateTimeData(parseInput[3]), new DateTimeData(parseInput[4])};
             return new EventTask(parseInput[2], parseInput[1].equals("true"), timings);
 
         } else {
@@ -66,13 +68,14 @@ public class EventTask extends Task {
                 throw new AstraException("Invalid event end");
             }
 
-            TimeData[] timings = {Parser.parseTime(timeFrom), Parser.parseTime(timeTo)};
+            DateTimeData[] timings = {Parser.parseTime(timeFrom), Parser.parseTime(timeTo)};
             return new EventTask(description, false, timings);
         }
     }
 
     /**
      * Updates the task with new information.
+     *
      * @param input possible changes made to the tasks.
      * @throws AstraException If the provided type of detail does not exist.
      */
@@ -104,7 +107,7 @@ public class EventTask extends Task {
             throw new AstraException("this task detail type does not exist");
         }
 
-        Ui.feedbackMessage("Updated:", displayTask());
+        Ui.displayMessage("Updated:", displayTask());
         MainWindow.addMessage("Updated:", displayTask());
     }
 
@@ -115,7 +118,7 @@ public class EventTask extends Task {
     @Override
     public String displayTask() {
         return String.format("[E][%s] %s (from: %s to: %s)", (isDone ? "X" : " "), description,
-                timings[0].displayTimeData(), timings[1].displayTimeData());
+                timings[0].displayDateTime(), timings[1].displayDateTime());
     }
 
     /**
@@ -125,6 +128,6 @@ public class EventTask extends Task {
     @Override
     protected String saveString() {
         return String.format("E | %b | %s | %s | %s",
-                isDone, description, timings[0].saveData(), timings[1].saveData());
+                isDone, description, timings[0].saveDateTimeData(), timings[1].saveDateTimeData());
     }
 }
