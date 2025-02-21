@@ -24,7 +24,7 @@ public class ParserTest {
     @Test
     public void testCommandTrim() {
         String result = Parser.parseCommand("deadline test   /by   date something", 8, false);
-        assertEquals( "test   /by   date something", result);
+        assertEquals("test   /by   date something", result);
     }
 
 
