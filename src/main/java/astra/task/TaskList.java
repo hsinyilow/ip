@@ -72,26 +72,27 @@ public class TaskList {
             if (taskIndex >= counter || taskIndex < 0) {
                 Ui.displayMessage("Sorry, this task don't exist :(");
                 MainWindow.addMessage("Sorry, this task don't exist :(");
-            } else {
-
-                String feedback = tasks.get(taskIndex).displayTask();
-                tasks.remove(taskIndex);
-                SaveSystem.deleteData(taskIndex);
-                counter--;
-
-
-                Ui.displayMessage("This task has been removed:", feedback);
-                MainWindow.addMessage("This task has been removed:", feedback);
-
-                if (counter == 0) {
-                    Ui.displayMessage("All tasks have been completed! ^_^");
-                    MainWindow.addMessage("All tasks have been completed! ^_^");
-                } else {
-                    Ui.displayMessage("There are " + counter + " tasks left!");
-                    MainWindow.addMessage("There are " + counter + " tasks left!");
-                }
-
+                return;
             }
+
+            String feedback = tasks.get(taskIndex).displayTask();
+            tasks.remove(taskIndex);
+            SaveSystem.deleteData(taskIndex);
+            counter--;
+
+
+            Ui.displayMessage("This task has been removed:", feedback);
+            MainWindow.addMessage("This task has been removed:", feedback);
+
+            if (counter == 0) {
+                Ui.displayMessage("All tasks have been completed! ^_^");
+                MainWindow.addMessage("All tasks have been completed! ^_^");
+            } else {
+                Ui.displayMessage("There are " + counter + " tasks left!");
+                MainWindow.addMessage("There are " + counter + " tasks left!");
+            }
+
+
         } catch (AstraException e) {
             Ui.displayAstraError(e.getMessage());
         }
@@ -110,11 +111,12 @@ public class TaskList {
             if (taskIndex >= counter || taskIndex < 0) {
                 Ui.displayMessage("Sorry, this task don't exist :(");
                 MainWindow.addMessage("Sorry, this task don't exist :(");
-            } else {
-                Task currentTask = tasks.get(taskIndex);
-                currentTask.updateMark(mark);
-                SaveSystem.updateData(taskIndex, currentTask.saveString());
+                return;
             }
+
+            Task currentTask = tasks.get(taskIndex);
+            currentTask.updateMark(mark);
+            SaveSystem.updateData(taskIndex, currentTask.saveString());
 
         } catch (AstraException e) {
             Ui.displayAstraError(e.getMessage());
@@ -130,16 +132,23 @@ public class TaskList {
      */
     public void updateTask(String input) {
         String[] splitCommand = input.split("/");
+        if (splitCommand.length != 2) {
+            Ui.displayAstraError("This is an invalid command.");
+        }
 
         try {
             int taskIndex = Parser.parseIntCommand(splitCommand[0], 7) - 1;
             Task currentTask = tasks.get(taskIndex);
-            currentTask.updateDetails(splitCommand[1]);
 
+            currentTask.updateDetails(splitCommand[1]);
             SaveSystem.updateData(taskIndex, currentTask.saveString());
 
-        } catch (AstraException e) {
-            Ui.displayAstraError(e.getMessage());
+        } catch (IndexOutOfBoundsException indexException) {
+            Ui.displayAstraError("Sorry, this task does not exist :(");
+        } catch (AstraException astraException) {
+            Ui.displayAstraError(astraException.getMessage());
+        } catch (Exception e) {
+            Ui.displayMessage("Sorry, an error has occurred :(");
         }
     }
 
@@ -157,7 +166,7 @@ public class TaskList {
     }
 
     /**
-     * Finds all the tasks that matches the input.
+     * Finds all the tasks that contains the input.
      *
      * @param input The matching task description.
      */
@@ -167,11 +176,18 @@ public class TaskList {
         Ui.displayMessage("Here are the matching tasks in your list:");
         MainWindow.addMessage("Here are the matching tasks in your list:");
 
+        int taskCounter = 0;
+
         for (int i = 0; i < tasks.size(); i++) {
             if (tasks.get(i).checkDescription(parsed)) {
                 Ui.displayMessage(tasks.get(i).displayTask());
                 MainWindow.addMessage(tasks.get(i).displayTask());
+                taskCounter++;
             }
+        }
+
+        if (taskCounter == 0) {
+            MainWindow.addMessage("No matches found");
         }
     }
 
@@ -184,19 +200,19 @@ public class TaskList {
     public void command(String input) {
         if (input.equals("list")) {
             displayTaskList();
-        } else if (input.startsWith("delete")) {
+        } else if (input.startsWith("delete ")) {
             deleteTask(input);
-        } else if (input.startsWith("update")) {
+        } else if (input.startsWith("update ")) {
             updateTask(input);
-        } else if (input.startsWith("mark") || input.startsWith("unmark")) {
+        } else if (input.startsWith("mark ") || input.startsWith("unmark ")) {
             markTask(input);
-        } else if (input.startsWith("find")) {
+        } else if (input.startsWith("find ")) {
             findTask(input);
-        } else if (input.startsWith("todo") | input.startsWith("T")) {
+        } else if (input.startsWith("todo ") | input.startsWith("T")) {
             addTask(input, TaskType.TODO);
-        } else if (input.startsWith("deadline") | input.startsWith("D")) {
+        } else if (input.startsWith("deadline ") | input.startsWith("D")) {
             addTask(input, TaskType.DEADLINE);
-        } else if (input.startsWith("event") | input.startsWith("E")) {
+        } else if (input.startsWith("event ") | input.startsWith("E")) {
             addTask(input, TaskType.EVENT);
         } else {
             Ui.displayAstraError("Unknown command");

@@ -17,14 +17,16 @@ public class ParserTest {
     @Test
     public void testAdditionalSpacingTrim() {
         assertEquals("a  3   1", Parser.parseCommand("a  3   1", 0, false));
+        assertEquals("", Parser.parseCommand("           ", 0, false));
     }
 
     @Test
     public void testCommandTrim() {
-        assertEquals( "test   /by   date something", Parser.parseCommand("deadline test   /by   date something", 8, false));
+        String result = Parser.parseCommand("deadline test   /by   date something", 8, false);
+        assertEquals( "test   /by   date something", result);
     }
 
-    //unaccepted format
+    //Tests date time parser
     @Test
     public void testTimeParseInvalidFormat() {
         try {

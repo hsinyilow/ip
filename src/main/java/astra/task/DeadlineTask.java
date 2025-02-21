@@ -2,8 +2,8 @@ package astra.task;
 
 import astra.gui.MainWindow;
 import astra.system.AstraException;
-import astra.system.Parser;
 import astra.system.DateTimeData;
+import astra.system.Parser;
 import astra.system.Ui;
 
 /**
@@ -77,6 +77,10 @@ public class DeadlineTask extends Task {
     @Override
     void updateDetails(String input) throws AstraException {
         int commandBreak = input.indexOf(" ");
+        if (commandBreak == -1) {
+            throw new AstraException("this task detail type does not exist");
+        }
+
         String detailType = input.substring(0, commandBreak);
 
         if (detailType.equals("desc")) {
@@ -86,7 +90,6 @@ public class DeadlineTask extends Task {
             if (newDescription.isEmpty()) {
                 throw new AstraException("new description cannot be empty");
             }
-
             description = newDescription;
 
         } else if (detailType.equals("by")) {
@@ -96,7 +99,6 @@ public class DeadlineTask extends Task {
             if (newDeadline.isEmpty()) {
                 throw new AstraException("Invalid deadline");
             }
-
             deadline = Parser.parseTime(newDeadline);
 
         } else {

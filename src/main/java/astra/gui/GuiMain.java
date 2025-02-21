@@ -17,8 +17,8 @@ import javafx.util.Duration;
 public class GuiMain extends Application {
     private static Stage mainStage;
 
-    /** Time delay in seconds before closing the application */
-    private static double timeDelay = 2;
+    /** Time delay in seconds before closing the application. */
+    private static double timeDelay = 1;
 
     private Image astraImage = new Image(this.getClass().getResourceAsStream("/images/astra_icon.png"));
 

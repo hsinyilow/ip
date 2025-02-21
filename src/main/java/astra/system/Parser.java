@@ -22,13 +22,14 @@ public class Parser {
         }
 
         command = command.substring(minTrim);
-        assert !command.isEmpty() : "string should have content";
+        command = command.trim();
 
         if (shouldRemoveSpace) {
+            assert !command.isEmpty() : "string should have content";
             command = command.replace(" ", "");
         }
 
-        return command.trim();
+        return command;
     }
 
     /**
@@ -73,7 +74,7 @@ public class Parser {
     public static DateTimeData parseTime(String input) throws AstraException {
         String[] parseInput = input.split(" ");
 
-        if(parseInput.length > 2) {
+        if (parseInput.length > 2) {
             throw new AstraException("There is a formatting error, please try again!");
         }
 

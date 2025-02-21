@@ -1,6 +1,5 @@
 package astra;
 
-import java.io.File;
 import java.util.Scanner;
 
 import astra.system.SaveSystem;
@@ -11,6 +10,7 @@ import astra.task.TaskList;
 
 /**
  * Starts the chatbot for CLI users and testing.
+ * This version does not have the help function, it is only found in application.
  */
 public class Astra {
 
@@ -42,7 +42,6 @@ public class Astra {
             taskList.command(nextLine);
         }
 
-        /*End the conversation */
         scanner.close();
         Ui.sayGoodbye();
     }

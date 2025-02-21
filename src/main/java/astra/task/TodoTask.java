@@ -62,6 +62,10 @@ public class TodoTask extends Task {
     @Override
     void updateDetails(String input) throws AstraException {
         int commandBreak = input.indexOf(" ");
+        if (commandBreak == -1) {
+            throw new AstraException("this task detail type does not exist");
+        }
+
         String detailType = input.substring(0, commandBreak);
 
         if (detailType.equals("desc")) {

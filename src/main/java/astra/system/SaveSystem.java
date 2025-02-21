@@ -33,6 +33,8 @@ public class SaveSystem {
      */
     public static void loadSaveFile(String path, TaskList taskList) {
         filePath = Paths.get(path);
+
+        //Solution inspired by: https://stackoverflow.com/questions/1816673/how-do-i-check-if-a-file-exists-in-java
         File saveFile = new File(path);
         File saveDirectory = new File("data");
 
@@ -51,13 +53,10 @@ public class SaveSystem {
             } catch (IOException e) {
                 Ui.displayAstraError("Error in loading a save file.");
             }
-
         } else {
             try {
                 saveFile.createNewFile();
             } catch (IOException e) {
-                Ui.displayAstraError(filePath.toString());
-                Ui.displayAstraError(e.getMessage());
                 Ui.displayAstraError("Error in creating a save file.");
             }
         }

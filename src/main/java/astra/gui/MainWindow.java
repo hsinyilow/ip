@@ -1,6 +1,5 @@
 package astra.gui;
 
-import java.io.File;
 import java.util.ArrayList;
 
 import astra.system.SaveSystem;
@@ -51,10 +50,7 @@ public class MainWindow extends AnchorPane {
     @FXML
     private void handleUserInput() {
         //Handles the user message output.
-        String userText = userInput.getText();
-        MessageBox userMessage = MessageBox.getUserDialog(userText);
-        dialogContainer.getChildren().addAll(userMessage);
-        userInput.clear();
+        String userText = handleUserOutput();
 
         //Handles the main commands unrelated to tasks.
         if (userText.equals("bye")) {
@@ -70,6 +66,20 @@ public class MainWindow extends AnchorPane {
         //Handles the rest of the commands.
         taskList.command(userText);
         handleAstraOutput();
+    }
+
+
+    /**
+     * Handles the user output.
+     *
+     * @return the command for Astra to process.
+     */
+    private String handleUserOutput() {
+        String userText = userInput.getText();
+        MessageBox userMessage = MessageBox.getUserDialog(userText);
+        dialogContainer.getChildren().addAll(userMessage);
+        userInput.clear();
+        return userText;
     }
 
     /**

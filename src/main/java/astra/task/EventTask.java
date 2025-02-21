@@ -2,8 +2,8 @@ package astra.task;
 
 import astra.gui.MainWindow;
 import astra.system.AstraException;
-import astra.system.Parser;
 import astra.system.DateTimeData;
+import astra.system.Parser;
 import astra.system.Ui;
 
 /**
@@ -37,40 +37,60 @@ public class EventTask extends Task {
                 : "The event task object constructor should not have been called";
 
         if (input.startsWith("E ")) {
-            /* handle input from save file*/
-            String[] parseInput = Parser.parseSaveFile(input);
-
-            if (parseInput.length != 5) {
-                throw new AstraException("Corrupted save file");
-            }
-
-            DateTimeData[] timings = {new DateTimeData(parseInput[3]), new DateTimeData(parseInput[4])};
-            return new EventTask(parseInput[2], parseInput[1].equals("true"), timings);
-
+            return createTaskFromSaveFile(input);
         } else {
-            /* handle input from user */
-            String[] parseInput = input.split("/");
-            boolean isInvalidCommand = !parseInput[1].startsWith("from") || !parseInput[2].startsWith("to");
-
-            if (parseInput.length != 3 || isInvalidCommand) {
-                throw new AstraException("Invalid Event astra.task.Task command");
-            }
-
-            String description = Parser.parseCommand(parseInput[0], 5, false);
-            String timeFrom = Parser.parseCommand(parseInput[1], 4, false);
-            String timeTo = Parser.parseCommand(parseInput[2], 2, false);
-
-            if (description.isEmpty()) {
-                throw new AstraException("Invalid task description");
-            } else if (timeFrom.isEmpty()) {
-                throw new AstraException("Invalid event start");
-            } else if (timeTo.isEmpty()) {
-                throw new AstraException("Invalid event end");
-            }
-
-            DateTimeData[] timings = {Parser.parseTime(timeFrom), Parser.parseTime(timeTo)};
-            return new EventTask(description, false, timings);
+            return createTaskFromInput(input);
         }
+    }
+
+    /**
+     * Creates an event task from save file.
+     *
+     * @param input The full command.
+     * @return a new functional EventTask object.
+     * @throws AstraException If save file is corrupted.
+     */
+    private static EventTask createTaskFromSaveFile(String input) throws AstraException {
+        /* handle input from save file*/
+        String[] parseInput = Parser.parseSaveFile(input);
+
+        if (parseInput.length != 5) {
+            throw new AstraException("Corrupted save file");
+        }
+
+        DateTimeData[] timings = {new DateTimeData(parseInput[3]), new DateTimeData(parseInput[4])};
+        return new EventTask(parseInput[2], parseInput[1].equals("true"), timings);
+    }
+
+    /**
+     * Creates an event task from user input.
+     *
+     * @param input The full command.
+     * @return a new functional EventTask object.
+     * @throws AstraException If there are any invalid information provided.
+     */
+    private static EventTask createTaskFromInput(String input) throws AstraException {
+        String[] parseInput = input.split("/");
+        boolean isInvalidCommand = !parseInput[1].startsWith("from") || !parseInput[2].startsWith("to");
+
+        if (parseInput.length != 3 || isInvalidCommand) {
+            throw new AstraException("Invalid Event Task command");
+        }
+
+        String description = Parser.parseCommand(parseInput[0], 5, false);
+        String timeFrom = Parser.parseCommand(parseInput[1], 4, false);
+        String timeTo = Parser.parseCommand(parseInput[2], 2, false);
+
+        if (description.isEmpty()) {
+            throw new AstraException("Invalid task description");
+        } else if (timeFrom.isEmpty()) {
+            throw new AstraException("Invalid event start");
+        } else if (timeTo.isEmpty()) {
+            throw new AstraException("Invalid event end");
+        }
+
+        DateTimeData[] timings = {Parser.parseTime(timeFrom), Parser.parseTime(timeTo)};
+        return new EventTask(description, false, timings);
     }
 
     /**
@@ -82,6 +102,10 @@ public class EventTask extends Task {
     @Override
     void updateDetails(String input) throws AstraException {
         int commandBreak = input.indexOf(" ");
+        if (commandBreak == -1) {
+            throw new AstraException("this task detail type does not exist");
+        }
+
         String detailType = input.substring(0, commandBreak);
 
         if (detailType.equals("desc")) {
@@ -91,8 +115,8 @@ public class EventTask extends Task {
             if (newDescription.isEmpty()) {
                 throw new AstraException("new description cannot be empty");
             }
-
             description = newDescription;
+
         } else if (detailType.equals("from") || detailType.equals("to")) {
             String newTiming = input.substring(commandBreak);
             newTiming = Parser.parseCommand(newTiming, 0, false);

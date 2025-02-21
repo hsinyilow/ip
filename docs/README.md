@@ -30,7 +30,11 @@ creates an event task with the description and duration.
 
 ### Listing tasks
 * `list`: list all the tasks.
-* `find [search string]`: displays all tasks which description matches `[search string]`.
+* `find [search string]`: displays all tasks which description contains `[search string]`.
 
 ### Closing the application
 * `bye`: Another way to close the application using command.
+
+## Acknowledgement
+Solution for GUI using JavaFX is adapted from CS2103 tutorial series.  
+Tutorial can be found at: [JavaFX tutorial on se-education.org](https://se-education.org/guides/tutorials/javaFxPart1.html)

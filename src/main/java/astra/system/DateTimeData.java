@@ -41,7 +41,7 @@ public class DateTimeData {
      */
     public String displayDateTime() {
         //Formatter solution created with reference to:
-        //https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html
+        //https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html.
         String time = dateTime.toLocalTime().format(DateTimeFormatter.ofPattern("hh:mm a"));
         String date = dateTime.toLocalDate().format(DateTimeFormatter.ofPattern("dd MMMM yyyy"));
         return shouldSaveTime ? String.format("%s %s", date, time) : String.format("%s", date);

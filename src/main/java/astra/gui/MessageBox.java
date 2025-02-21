@@ -17,7 +17,7 @@ import javafx.scene.layout.HBox;
  * Displays the message.
  */
 public class MessageBox extends HBox {
-    //Images used are created by myself using this website: https://www.pixilart.com/draw
+    //Images used are created by myself using this website: https://www.pixilart.com/draw.
     private Image userImage = new Image(this.getClass().getResourceAsStream("/images/user_icon.png"));
     private Image astraImage = new Image(this.getClass().getResourceAsStream("/images/astra_icon.png"));
     @FXML
