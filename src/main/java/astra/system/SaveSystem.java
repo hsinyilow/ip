@@ -2,6 +2,7 @@ package astra.system;
 
 import static java.nio.file.Files.readAllLines;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -32,8 +33,14 @@ public class SaveSystem {
      */
     public static void loadSaveFile(String path, TaskList taskList) {
         filePath = Paths.get(path);
+        File saveFile = new File(path);
+        File saveDirectory = new File("data");
 
-        if (Files.exists(filePath)) {
+        if (!saveDirectory.getAbsoluteFile().exists()) {
+            saveDirectory.mkdirs();
+        }
+
+        if (saveFile.getAbsoluteFile().exists()) {
             //load save file into the task list when a file exists.
             try {
                 allLines = readAllLines(filePath);
@@ -47,8 +54,10 @@ public class SaveSystem {
 
         } else {
             try {
-                Files.createFile(filePath);
+                saveFile.createNewFile();
             } catch (IOException e) {
+                Ui.displayAstraError(filePath.toString());
+                Ui.displayAstraError(e.getMessage());
                 Ui.displayAstraError("Error in creating a save file.");
             }
         }

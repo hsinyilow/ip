@@ -41,10 +41,10 @@ public class Ui {
                 "'bye': close the application",
                 "'list': list all the tasks",
                 "'todo [task description]': creates a todo task with the description",
-                "'deadline [task description] /by [YYYY-MM-DD] [hour:minutes]': " +
-                        "creates a deadline task with the description and the specified deadline (time is optional)",
-                "'event [task description] /from [YYYY-MM-DD] [hour:minutes] /to [YYYY-MM-DD] [hour:minutes]': " +
-                        "creates an event task with the description and duration (time is optional)",
+                "'deadline [task description] /by [YYYY-MM-DD] [hour:minutes]': "
+                        + "creates a deadline task with the description and the specified deadline (time is optional)",
+                "'event [task description] /from [YYYY-MM-DD] [hour:minutes] /to [YYYY-MM-DD] [hour:minutes]': "
+                        + "creates an event task with the description and duration (time is optional)",
                 "'delete [task number]': delete the specified task",
                 "'mark [task number]': mark the specified task as complete",
                 "'unmark [task number]': mark the specified task as incomplete",

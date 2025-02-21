@@ -9,42 +9,63 @@ import org.junit.jupiter.api.Test;
 public class ParserTest {
 
     @Test
-    public void testCommand1() {
-        assertEquals("aee", Parser.parseCommand("       a     e     e   ", 2, true));
+    public void testAdditionalSpacingAll() {
+        assertEquals("aee",
+                Parser.parseCommand("       a     e     e   ", 2, true));
     }
 
     @Test
-    public void testCommand2() {
+    public void testAdditionalSpacingTrim() {
         assertEquals("a  3   1", Parser.parseCommand("a  3   1", 0, false));
     }
 
     @Test
-    public void testTime3() {
-        try {
-            Parser.parseTime("a  3   1");
-        } catch (Exception e) {
-            assertEquals("Invalid date time format", e.getMessage());
-        }
-    }
-
-    @Test
-    public void timeTest1() {
-        try {
-            assertEquals("01 December 1925" , Parser.parseTime("1925-12-01").displayDateTime());
-
-        } catch (Exception e) {
-            fail();
-        }
+    public void testCommandTrim() {
+        assertEquals( "test   /by   date something", Parser.parseCommand("deadline test   /by   date something", 8, false));
     }
 
     //unaccepted format
     @Test
-    public void timeTest2() {
+    public void testTimeParseInvalidFormat() {
         try {
-            Parser.parseTime("11-01-1025").displayDateTime();
-
+            Parser.parseTime("01-01-2020");
         } catch (Exception e) {
             assertEquals("Invalid date time format", e.getMessage());
+        }
+    }
+
+
+    @Test
+    public void testTimeParseDateOnly() {
+        try {
+            assertEquals("11 January 2025", Parser.parseTime("2025-01-11").displayDateTime());
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            fail();
+        }
+
+    }
+
+    @Test
+    public void testTimeParseDateAndTime() {
+        try {
+            assertEquals("11 January 2025 11:59 pm",
+                    Parser.parseTime("2025-01-11 23:59").displayDateTime());
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            fail();
+        }
+    }
+
+    @Test
+    public void testTimeParseSpacing() {
+        try {
+            Parser.parseTime("   2025-01-11    23:59   ");
+
+        } catch (Exception e) {
+            assertEquals("There is a formatting error, please try again!", e.getMessage());
         }
     }
 }

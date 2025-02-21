@@ -34,8 +34,8 @@ public class DeadlineTask extends Task {
      * @throws AstraException If there are any invalid information or the save file is corrupted.
      */
     public static DeadlineTask createNewTask(String input) throws AstraException {
-        assert input.startsWith("D") : "The deadline task object constructor should not have been called";
-        assert input.startsWith("deadline") : "The deadline task object constructor should not have been called";
+        assert input.startsWith("D") || input.startsWith("deadline")
+                : "The deadline task object constructor should not have been called";
 
         if (input.startsWith("D ")) {
             /* handle input from save file*/

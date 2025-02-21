@@ -49,7 +49,7 @@ public class Astra {
 
 
     public static void main(String[] args) {
-        String filePath = "data" + File.separator + "astraData.txt";
+        String filePath = "data/astraData.txt";
         new Astra(filePath).runAstra();
     }
 }

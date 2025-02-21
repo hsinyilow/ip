@@ -73,6 +73,10 @@ public class Parser {
     public static DateTimeData parseTime(String input) throws AstraException {
         String[] parseInput = input.split(" ");
 
+        if(parseInput.length > 2) {
+            throw new AstraException("There is a formatting error, please try again!");
+        }
+
         try {
             LocalDate date = LocalDate.parse(parseInput[0]);
             LocalTime time = LocalTime.MIN;
@@ -82,6 +86,7 @@ public class Parser {
             }
 
             //Creates and save the time object with the date.
+            assert parseInput[1].length() == 5 : "Time format is wrong";
             String[] splitTime = parseInput[1].split(":");
             int hours = Integer.parseInt(splitTime[0]);
             int minutes = Integer.parseInt(splitTime[1]);

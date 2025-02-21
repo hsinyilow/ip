@@ -37,7 +37,7 @@ public class MainWindow extends AnchorPane {
     public void initialize() {
         scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
 
-        String filePath = "data" + File.separator + "astraData.txt";
+        String filePath = "data/astraData.txt";
         SaveSystem.loadSaveFile(filePath, taskList);
         MainWindow.messageList.clear();
 
