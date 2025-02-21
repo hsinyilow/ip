@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 
 public class ParserTest {
 
+    /** Test parsing string command. */
     @Test
     public void testAdditionalSpacingAll() {
         assertEquals("aee",
@@ -26,7 +27,8 @@ public class ParserTest {
         assertEquals( "test   /by   date something", result);
     }
 
-    //Tests date time parser
+
+    /** Test parsing time command. */
     @Test
     public void testTimeParseInvalidFormat() {
         try {

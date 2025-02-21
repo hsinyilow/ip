@@ -35,6 +35,9 @@ creates an event task with the description and duration.
 ### Closing the application
 * `bye`: Another way to close the application using command.
 
+## Additional Note
+* Do not use slashes ("/") in any description as it is used for sub commands.
+
 ## Acknowledgement
 Solution for GUI using JavaFX is adapted from CS2103 tutorial series.  
 Tutorial can be found at: [JavaFX tutorial on se-education.org](https://se-education.org/guides/tutorials/javaFxPart1.html)

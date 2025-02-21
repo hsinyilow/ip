@@ -71,9 +71,12 @@ public class EventTask extends Task {
      */
     private static EventTask createTaskFromInput(String input) throws AstraException {
         String[] parseInput = input.split("/");
-        boolean isInvalidCommand = !parseInput[1].startsWith("from") || !parseInput[2].startsWith("to");
+        if (parseInput.length != 3) {
+            throw new AstraException("Invalid Event Task command");
+        }
 
-        if (parseInput.length != 3 || isInvalidCommand) {
+        boolean isInvalidCommand = !parseInput[1].startsWith("from") || !parseInput[2].startsWith("to");
+        if (isInvalidCommand) {
             throw new AstraException("Invalid Event Task command");
         }
 

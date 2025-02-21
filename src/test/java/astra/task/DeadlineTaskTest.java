@@ -10,7 +10,7 @@ import astra.system.AstraException;
 
 public class DeadlineTaskTest {
 
-    /** Static Constructor testing: function is createNewTask */
+    /** Test Deadline Task constructor. */
     @Test
     public void createSuccessCase() {
         try {
@@ -48,7 +48,7 @@ public class DeadlineTaskTest {
             Task t1 = DeadlineTask.createNewTask("deadline /by 2019-01-01 /by 2015-02-03");
             fail();
         } catch (AstraException ae) {
-            //should have parsing error.
+            //should have parsing error, not allowed more than 1 slash.
             assertEquals("Invalid Deadline task command", ae.getMessage());
         }
     }
@@ -71,6 +71,85 @@ public class DeadlineTaskTest {
         } catch (AstraException ae) {
             //description should not be empty.
             assertEquals("Invalid task description", ae.getMessage());
+        }
+    }
+
+    /** Test updating task. */
+    @Test
+    public void successUpdateCases() {
+        try {
+            DeadlineTask t1 = DeadlineTask.createNewTask("deadline items and things /by 2019-05-01");
+
+            t1.updateDetails("desc some things here ");
+            assertEquals("some things here", t1.description);
+
+            t1.updateDetails("desc temp");
+            t1.updateDetails("by 2020-01-01");
+            assertEquals("[D][ ] temp (by: 01 January 2020)", t1.displayTask());
+
+            t1.updateDetails("by 2020-01-01 23:59");
+            assertEquals("[D][ ] temp (by: 01 January 2020 11:59 pm)", t1.displayTask());
+        } catch (AstraException e) {
+            fail();
+        }
+    }
+
+    @Test
+    public void invalidUpdateType() {
+        try {
+            DeadlineTask t1 = DeadlineTask.createNewTask("deadline items and things /by 2019-05-01");
+            t1.updateDetails("new update here");
+            fail();
+        } catch (AstraException e) {
+            assertEquals("this task detail type does not exist", e.getMessage());
+        }
+
+        //check non-class command.
+        try {
+            DeadlineTask t1 = DeadlineTask.createNewTask("deadline items and things /by 2019-05-01");
+            t1.updateDetails("from a");
+            fail();
+        } catch (AstraException e) {
+            assertEquals("this task detail type does not exist", e.getMessage());
+        }
+
+        try {
+            DeadlineTask t1 = DeadlineTask.createNewTask("deadline items and things /by 2019-05-01");
+            t1.updateDetails("to a");
+            fail();
+        } catch (AstraException e) {
+            assertEquals("this task detail type does not exist", e.getMessage());
+        }
+
+        //check empty command.
+        try {
+            DeadlineTask t1 = DeadlineTask.createNewTask("deadline items and things /by 2019-05-01");
+            t1.updateDetails("");
+            fail();
+        } catch (AstraException e) {
+            assertEquals("this task detail type does not exist", e.getMessage());
+        }
+    }
+
+    @Test
+    public void invalidUpdateCommand() {
+        try {
+            DeadlineTask t1 = DeadlineTask.createNewTask("deadline items and things /by 2019-05-01");
+
+            t1.updateDetails("desc       ");
+        } catch (AstraException e) {
+            assertEquals("new description cannot be empty", e.getMessage());
+        }
+    }
+
+    @Test
+    public void invalidSpacingCommand() {
+        try {
+            DeadlineTask t1 = DeadlineTask.createNewTask("deadline items and things /by 2019-05-01");
+            t1.updateDetails("desclongstringthatdoesnothavemeaning");
+            fail();
+        } catch (AstraException e) {
+            assertEquals("this task detail type does not exist", e.getMessage());
         }
     }
 }
